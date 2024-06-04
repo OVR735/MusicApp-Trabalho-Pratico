@@ -1,16 +1,33 @@
-#ifndef USER_H_
-#define USER_H_
-#include <string>
-#include <iostream>
+#ifndef USUARIO_H
+#define USUARIO_H
 
-using namespace std;
+#include <string>
+#include <vector>
+#include "Playlist.h"
 
 class Usuario {
-    public:
-    Usuario();
+protected:
+    std::string nome;
+    std::string email;
+    std::string senha;
+    int limitePlaylists;
+    std::vector<Playlist> playlists;
 
-    ~Usuario();
- private:
+public:
+    Usuario(const std::string& nome, const std::string& email, const std::string& senha, int limitePlaylists);
+
+    virtual void exibirInformacoes() const = 0;
+
+    const std::string& getNome() const;
+    const std::string& getEmail() const;
+    const std::string& getSenha() const;
+    
+    int getLimitePlaylists() const;
+
+    void adicionarPlaylist(const Playlist& playlist);
+    void removerPlaylist(const std::string& descricao);
+
+    virtual ~Usuario();
 };
 
-#endif
+#endif // USUARIO_H
