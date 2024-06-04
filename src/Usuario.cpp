@@ -1,9 +1,9 @@
 #include "../include/Usuario.h"
 
 Usuario::Usuario() {
-    cout << "Construtor do Usuario" << endl;
+    cout << "Chamando Construtor do Usuario..." << endl;
 }
 
 Usuario::~Usuario() {
-    cout << "Destrutor do Usuario" << endl;
+    cout << "Chamando Destrutor do Usuario..." << endl;
 }
