@@ -9,6 +9,7 @@ using namespace std;
 
 class Usuario {
     protected:
+        int id;
         string nome;
         string email;
         string senha;
@@ -16,10 +17,11 @@ class Usuario {
         vector<int> playlists;
 
     public:
-        Usuario(const string& nome, const string& email, const string& senha, int limitePlaylists);
+        Usuario(const string& nome, const string& email, const string& senha, int limitePlaylists, int id);
 
         virtual void exibirInformacoes() const = 0;
 
+        const int getId() const;
         const string& getNome() const;
         const string& getEmail() const;
         const string& getSenha() const;
