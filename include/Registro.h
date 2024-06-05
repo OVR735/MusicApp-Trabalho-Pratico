@@ -4,11 +4,12 @@
 #include "Autenticacao.h"
 
 class Registro {
-public:
-    void registrarUsuario();
+    public:
+        void registrarUsuario();
+        
 
-private:
-    Autenticacao autenticacao;
+    private:
+        Autenticacao autenticacao;
 };
 
 #endif

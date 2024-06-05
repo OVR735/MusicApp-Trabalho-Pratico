@@ -1,0 +1,32 @@
+{
+    "usuarios": [
+        {
+            "email": "teste@teste.com",
+            "id": 1,
+            "nome": "Shaolins",
+            "playlists": null,
+            "senha": "1234"
+        },
+        {
+            "email": "brenda@brenda.com",
+            "id": 2,
+            "nome": "Brenda",
+            "playlists": null,
+            "senha": "1234"
+        },
+        {
+            "email": "pipi@pipi.com",
+            "id": 3,
+            "nome": "Pietra",
+            "playlists": null,
+            "senha": "1234567"
+        },
+        {
+            "email": "otavio@otavio.com",
+            "id": 4,
+            "nome": "Otavio",
+            "playlists": null,
+            "senha": "1234567"
+        }
+    ]
+}

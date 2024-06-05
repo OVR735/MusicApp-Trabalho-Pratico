@@ -1,26 +1,26 @@
 #include "../include/JsonService.h"
 
-JSONReader::JSONReader() {
+JSONService::JSONService() {
     // Construtor
 }
 
-JSONReader::~JSONReader() {
+JSONService::~JSONService() {
     // Destrutor
     closeFile();
 }
 
-bool JSONReader::openFile(const std::string& filename) {
+bool JSONService::openFile(const std::string& filename) {
     fileStream.open(filename);
     return fileStream.is_open();
 }
 
-void JSONReader::closeFile() {
+void JSONService::closeFile() {
     if (fileStream.is_open()) {
         fileStream.close();
     }
 }
 
-bool JSONReader::parseJSON() {
+bool JSONService::parseJSON() {
     if (fileStream.is_open()) {
         try {
             fileStream >> jsonData;
@@ -35,11 +35,15 @@ bool JSONReader::parseJSON() {
     }
 }
 
-json JSONReader::getJSON() const {
+json JSONService::getJSON() const {
     return jsonData;
 }
 
-bool JSONReader::writeJSONToFile(const std::string& filename) {
+void JSONService::setJSONData(json data) {
+    jsonData = data;
+};
+
+bool JSONService::writeJSONToFile(const std::string& filename) {
     std::ofstream outFile(filename);
     if (outFile.is_open()) {
         try {

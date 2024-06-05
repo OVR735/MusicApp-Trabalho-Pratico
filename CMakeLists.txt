@@ -11,4 +11,18 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 include_directories(include)
 
 # Adiciona os arquivos de origem
+
+include(FetchContent)
+
+FetchContent_Declare(
+    json
+    GIT_REPOSITORY https://github.com/nlohmann/json.git
+    GIT_TAG v3.11.2  # Substitua pela versão desejada
+)
+
+FetchContent_MakeAvailable(json)
+
+
 add_executable(MusicApp main.cpp src/Registro.cpp src/Autenticacao.cpp)
+
+target_link_libraries(MusicApp PRIVATE nlohmann_json::nlohmann_json)

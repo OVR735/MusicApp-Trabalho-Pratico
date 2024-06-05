@@ -3,14 +3,17 @@
 
 #include <string>
 #include <unordered_map>
+#include <utility>
+
+using namespace std;
 
 class Autenticacao {
-public:
-    bool validarRegistro(const std::string& username, const std::string& email, const std::string& senha);
+    public:
+        pair<bool, string> validarRegistro(const string& nome, const string& email, const string& senha);
 
-private:
-    void carregarUsuarios(std::unordered_map<std::string, std::pair<std::string, std::string>>& usuarios);
-    void salvarUsuarios(const std::unordered_map<std::string, std::pair<std::string, std::string>>& usuarios);
+    private:
+        void carregarUsuarios(unordered_map<string, pair<string, string>>& usuarios);
+        void salvarUsuarios(const unordered_map<string, pair<string, string>>& usuarios);
 };
 
 #endif // AUTENTICACAO_H

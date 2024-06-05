@@ -1,19 +1,24 @@
 #include <iostream>
 #include "Registro.h"
+#include <utility>
+
+using namespace std;
 
 void Registro::registrarUsuario() {
-    std::string username, email, senha;
+    string username, email, senha;
 
-    std::cout << "Digite o nome de usuário: ";
-    std::cin >> username;
-    std::cout << "Digite o e-mail: ";
-    std::cin >> email;
-    std::cout << "Digite a senha: ";
-    std::cin >> senha;
+    cout << "Digite o nome de usuário: ";
+    cin >> username;
+    cout << "Digite o e-mail: ";
+    cin >> email;
+    cout << "Digite a senha: ";
+    cin >> senha;
 
-    if (autenticacao.validarRegistro(username, email, senha)) {
-        std::cout << "Usuário registrado com sucesso!\n";
+    pair<bool, string> resultado = autenticacao.validarRegistro(username, email, senha);
+    if (resultado.first) {
+        cout << "Usuário registrado com sucesso!\n";
     } else {
-        std::cerr << "Erro ao registrar o usuário.\n";
+        cerr << "Erro ao registrar o usuário.\n";
+        cerr << resultado.second << "\n";
     }
 }

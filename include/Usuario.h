@@ -5,29 +5,31 @@
 #include <vector>
 #include "Playlist.h"
 
+using namespace std;
+
 class Usuario {
-protected:
-    std::string nome;
-    std::string email;
-    std::string senha;
-    int limitePlaylists;
-    std::vector<Playlist> playlists;
+    protected:
+        string nome;
+        string email;
+        string senha;
+        int limitePlaylists;
+        vector<int> playlists;
 
-public:
-    Usuario(const std::string& nome, const std::string& email, const std::string& senha, int limitePlaylists);
+    public:
+        Usuario(const string& nome, const string& email, const string& senha, int limitePlaylists);
 
-    virtual void exibirInformacoes() const = 0;
+        virtual void exibirInformacoes() const = 0;
 
-    const std::string& getNome() const;
-    const std::string& getEmail() const;
-    const std::string& getSenha() const;
-    
-    int getLimitePlaylists() const;
+        const string& getNome() const;
+        const string& getEmail() const;
+        const string& getSenha() const;
+        
+        int getLimitePlaylists() const;
 
-    void adicionarPlaylist(const Playlist& playlist);
-    void removerPlaylist(const std::string& descricao);
+        void adicionarPlaylist(const Playlist& playlist);
+        void removerPlaylist(const std::string& descricao);
 
-    virtual ~Usuario();
+        virtual ~Usuario();
 };
 
 #endif // USUARIO_H

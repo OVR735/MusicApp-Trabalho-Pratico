@@ -5,24 +5,26 @@
 #include <vector>
 #include "Musica.h"
 
+using namespace std;
+
 class Playlist {
-private:
-    std::string nome;
-    std::string descricao;
-    std::vector<Musica> musicas;
+    private:
+        string nome;
+        string descricao;
+        vector<Musica> musicas;
 
-public:
-    Playlist(const std::string& descricao);
+    public:
+        Playlist(const string& descricao);
 
-    void adicionarMusica(const Musica& musica);
-    void removerMusica(const std::string& nomeMusica);
-    void exibirInformacoes() const;
+        void adicionarMusica(const Musica& musica);
+        void removerMusica(const string& nomeMusica);
+        void exibirInformacoes() const;
 
-    void setNome(const std::string& nome);
-    void setDescricao(const std::string& descricao);
+        void setNome(const string& nome);
+        void setDescricao(const string& descricao);
 
-    const std::string& getDescricao() const;
-    const std::string& getNome() const;
+        const string& getDescricao() const;
+        const string& getNome() const;
 };
 
 #endif // PLAYLIST_H

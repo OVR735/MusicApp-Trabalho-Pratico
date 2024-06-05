@@ -3,20 +3,22 @@
 
 #include <string>
 
+using namespace std;
+
 class Musica {
-private:
-    std::string nome;
-    double duracao; // em minutos
-    std::string artista;
+    private:
+        string nome;
+        double duracao; // em minutos
+        string artista;
 
-public:
-    Musica(const std::string& nome, double duracao, const std::string& artista);
+    public:
+        Musica(const string& nome, double duracao, const string& artista);
 
-    const std::string& getNome() const;
-    double getDuracao() const;
-    const std::string& getArtista() const;
+        const string& getNome() const;
+        double getDuracao() const;
+        const string& getArtista() const;
 
-    void exibirInformacoes() const;
+        void exibirInformacoes() const;
 };
 
 #endif // MUSICA_H
