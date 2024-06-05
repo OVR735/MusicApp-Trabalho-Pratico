@@ -27,6 +27,13 @@
             "nome": "Otavio",
             "playlists": null,
             "senha": "1234567"
+        },
+        {
+            "email": "testando1@teste.com",
+            "id": 5,
+            "nome": "testando1",
+            "playlists": null,
+            "senha": "123"
         }
     ]
 }

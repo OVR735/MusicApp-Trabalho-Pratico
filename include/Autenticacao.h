@@ -10,6 +10,7 @@ using namespace std;
 class Autenticacao {
     public:
         pair<bool, string> validarRegistro(const string& nome, const string& email, const string& senha);
+        bool validarLogin(const std::string& email, const std::string& senha);
 
     private:
         void carregarUsuarios(unordered_map<string, pair<string, string>>& usuarios);

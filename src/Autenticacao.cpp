@@ -59,6 +59,29 @@ pair<bool, string> Autenticacao::validarRegistro(const string& nome, const strin
     return resultado;
 }
 
+bool Autenticacao::validarLogin(const string& email, const string& senha) {
+    JSONService reader;
+
+    if (!reader.openFile("../data/Usuarios.json")) {
+        cerr << "Não foi possível abrir o arquivo Usuarios.json\n";
+        return false;
+    }
+
+    if (!reader.parseJSON()) {
+        cerr << "Erro ao analisar o arquivo JSON\n";
+        return false;
+    }
+
+    json usuarios = reader.getJSON();
+    for (const auto& usuario : usuarios["usuarios"]) {
+        if(email == usuario["email"] && senha == usuario["senha"]) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void Autenticacao::carregarUsuarios(unordered_map<string, pair<string, string>>& usuarios) {
     ifstream file("usuarios.txt");
     if (!file.is_open()) {
