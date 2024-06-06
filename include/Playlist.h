@@ -4,27 +4,29 @@
 #include <string>
 #include <vector>
 #include "Musica.h"
+#include "JsonService.h"
 
 using namespace std;
 
 class Playlist {
     private:
+        int id;
+        int idUsuario;
         string nome;
         string descricao;
         vector<Musica> musicas;
 
     public:
-        Playlist(const string& descricao);
 
         void adicionarMusica(const Musica& musica);
         void removerMusica(const string& nomeMusica);
-        void exibirInformacoes() const;
+        void exibirInformacoes();
 
         void setNome(const string& nome);
         void setDescricao(const string& descricao);
 
-        const string& getDescricao() const;
-        const string& getNome() const;
+        const string& getDescricao();
+        const string& getNome();
 };
 
 #endif // PLAYLIST_H

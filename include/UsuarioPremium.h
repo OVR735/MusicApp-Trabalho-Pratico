@@ -6,13 +6,11 @@
 
 class UsuarioPremium : public Usuario {
 public:
-    UsuarioPremium(const string& nome, const string& email, const string& senha, int limitePlaylists, int id);
+    UsuarioPremium(int id);
 
-    void exibirInformacoes() const override;
+    const string& playlistRestantes() const;
 
-    const string& getLimitePlaylists() const;
-
-    void adicionarPlaylist(const Playlist& playlist);
+    void adicionarPlaylist();
 };
 
 #endif // USUARIOPREMIUM_H

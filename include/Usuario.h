@@ -17,19 +17,17 @@ class Usuario {
         vector<int> playlists;
 
     public:
-        Usuario(const string& nome, const string& email, const string& senha, int limitePlaylists, int id);
-
-        virtual void exibirInformacoes() const = 0;
+        Usuario(int id);
 
         const int getId() const;
         const string& getNome() const;
         const string& getEmail() const;
         const string& getSenha() const;
         
-        int getLimitePlaylists() const;
-
-        void adicionarPlaylist(const Playlist& playlist);
+        void adicionarPlaylist();
         void removerPlaylist(const std::string& descricao);
+
+        const string& playlistRestantes() const;
 
         virtual ~Usuario();
 };

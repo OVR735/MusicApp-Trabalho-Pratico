@@ -5,11 +5,11 @@
 
 class UsuarioFree : public Usuario {
 public:
-    UsuarioFree(const string& nome, const string& email, const string& senha, int limitePlaylists, int id);
+    UsuarioFree(int id);
 
-    void exibirInformacoes() const override;
+    const string& playlistRestantes() const;
 
-    void adicionarPlaylist(const Playlist& playlist);
+    void adicionarPlaylist();
 };
 
 #endif // USUARIOFREE_H
