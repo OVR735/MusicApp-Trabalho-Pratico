@@ -5,7 +5,8 @@
             "id": 1,
             "nome": "Shaolins",
             "playlists": null,
-            "senha": "1234"
+            "senha": "1234",
+            "premium": true
         },
         {
             "email": "brenda@brenda.com",
@@ -14,28 +15,8 @@
             "playlists": [
                 3
             ],
-            "senha": "1234"
-        },
-        {
-            "email": "pipi@pipi.com",
-            "id": 3,
-            "nome": "Pietra",
-            "playlists": null,
-            "senha": "1234567"
-        },
-        {
-            "email": "otavio@otavio.com",
-            "id": 4,
-            "nome": "Otavio",
-            "playlists": null,
-            "senha": "1234567"
-        },
-        {
-            "email": "testando1@teste.com",
-            "id": 5,
-            "nome": "testando1",
-            "playlists": null,
-            "senha": "123"
+            "senha": "1234",
+            "premium": false
         }
     ]
 }

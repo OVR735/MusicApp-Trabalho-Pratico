@@ -18,6 +18,7 @@ class Usuario {
 
     public:
         Usuario(int id);
+        virtual ~Usuario() = default;
 
         const int getId() const;
         const string& getNome() const;
@@ -28,8 +29,6 @@ class Usuario {
         void removerPlaylist(const std::string& descricao);
 
         void playlistRestantes();
-
-        virtual ~Usuario();
 };
 
 #endif // USUARIO_H

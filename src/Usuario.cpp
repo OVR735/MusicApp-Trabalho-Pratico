@@ -37,7 +37,3 @@ const std::string& Usuario::getSenha() const { return senha; }
 void Usuario::removerPlaylist(const std::string& descricao) {
 
 }
-
-Usuario::~Usuario() {
-
-}

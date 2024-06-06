@@ -42,6 +42,7 @@ pair<bool, string> Autenticacao::validarRegistro(const string& nome, const strin
         {"email", email},
         {"senha", senha},
         {"playlists", {}},
+        {"premium", false},
     };
 
     usuarios["usuarios"].push_back(novoUsuario);
@@ -58,7 +59,33 @@ pair<bool, string> Autenticacao::validarRegistro(const string& nome, const strin
     return resultado;
 }
 
-bool Autenticacao::validarLogin(const string& email, const string& senha) {
+pair<bool, int> Autenticacao::validarLogin(const string& email, const string& senha) {
+    JSONService reader;
+
+    pair<bool, int> resultado = make_pair(false, 0);
+
+    if (!reader.openFile("../data/Usuarios.json")) {
+        cerr << "Não foi possível abrir o arquivo Usuarios.json\n";
+        return resultado;
+    }
+
+    if (!reader.parseJSON()) {
+        cerr << "Erro ao analisar o arquivo JSON\n";
+        return resultado;
+    }
+
+    json usuarios = reader.getJSON();
+    for (const auto& usuario : usuarios["usuarios"]) {
+        if(email == usuario["email"] && senha == usuario["senha"]) {
+            resultado.first = true;
+            resultado.second = usuario["id"];
+        }
+    }
+
+    return resultado;
+}
+
+bool Autenticacao::verificarUsuarioPremium(int id) {
     JSONService reader;
 
     if (!reader.openFile("../data/Usuarios.json")) {
@@ -73,11 +100,12 @@ bool Autenticacao::validarLogin(const string& email, const string& senha) {
 
     json usuarios = reader.getJSON();
     for (const auto& usuario : usuarios["usuarios"]) {
-        if(email == usuario["email"] && senha == usuario["senha"]) {
-            return true;
+        if(id == usuario["id"]) {
+            return usuario["premium"];
         }
     }
 
+    cerr << "Usuário não encontrado na base de dados\n";
     return false;
 }
 
