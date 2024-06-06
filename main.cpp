@@ -2,6 +2,7 @@
 #include "Registro.h"
 #include "Login.h"
 #include "include/Playlist.h"
+#include "UsuarioFree.h"
 
 int main() {
     while (true) {
@@ -15,6 +16,8 @@ int main() {
         } else if (opcao == 2) {
             Login login;
             login.fazerLogin();
+            UsuarioFree userteste(2);
+            userteste.adicionarPlaylist();
          } else if (opcao == 3) {
                 break;
         } else {

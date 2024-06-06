@@ -5,9 +5,11 @@
 
 class UsuarioFree : public Usuario {
 public:
-    UsuarioFree(int id);
+    UsuarioFree(int id):Usuario(id){
+        
+    };
 
-    const string& playlistRestantes() const;
+    void playlistRestantes();
 
     void adicionarPlaylist();
 };

@@ -6,9 +6,11 @@
 
 class UsuarioPremium : public Usuario {
 public:
-    UsuarioPremium(int id);
+    UsuarioPremium(int id):Usuario(id){
+        
+    };
 
-    const string& playlistRestantes() const;
+    void playlistRestantes();
 
     void adicionarPlaylist();
 };

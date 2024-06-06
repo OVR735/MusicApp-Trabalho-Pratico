@@ -27,7 +27,7 @@ class Usuario {
         void adicionarPlaylist();
         void removerPlaylist(const std::string& descricao);
 
-        const string& playlistRestantes() const;
+        void playlistRestantes();
 
         virtual ~Usuario();
 };

@@ -1,11 +1,10 @@
 #include "UsuarioFree.h"
 #include <iostream>
 #include <string>
-#include "JsonService.cpp"
 
-const std::string &UsuarioFree::playlistRestantes()
+void UsuarioFree::playlistRestantes()
 {
-    return "Você ainda tem " + std::to_string(limitePlaylists) + "restantes!";
+    cout << "Você ainda tem " << limitePlaylists << "restantes!";
 }
 
 void UsuarioFree::adicionarPlaylist()
@@ -16,31 +15,30 @@ void UsuarioFree::adicionarPlaylist()
     if (limitePlaylists < playlists.size())
     {
 
-        Playlist newPlaylist = new Playlist("aaaa", "bb", id)
+        Playlist newPlaylist("aaaa", "bb", id);
 
         playlists.push_back(newPlaylist.getID());
 
         if (!reader.openFile("../data/Usuarios.json"))
         {
-            resultado.second = "Não foi possível abrir o arquivo Usuarios.json";
-            return resultado;
+            throw "deu erro aqui";
         }
 
         // Analisar o conteúdo do JSON
         if (!reader.parseJSON())
         {
-            resultado.second = "Erro ao analisar o arquivo JSON";
-            return resultado;
+            throw "deu erro aqui";
         }
 
         json usuarios = reader.getJSON();
 
-        for (const auto &idUsuario : usuarios["id"])
+        for (auto &user : usuarios["usuarios"])
         {
-            if (idUsuario == id)
+            if (user["id"] == id)
             {
-                usuarios["playlists"] = playlists;
+                user["playlists"] = playlists;
                 limitePlaylists--;
+                reader.setJSONData(usuarios);
                 if (!reader.writeJSONToFile("../data/Usuarios.json")) {
                     throw "Erro ao escrever no arquivo JSON";
                 }
@@ -53,5 +51,5 @@ void UsuarioFree::adicionarPlaylist()
         throw "Você antigiu o limite de playlists. Assine o premium para músicas sem limite!";
     }
 
-    throw exception; // Programar exceção depois
+    throw "deu erro aqui"; // Programar exceção depois
 }
