@@ -9,10 +9,10 @@ class Musica {
     private:
         string nome;
         double duracao; // em minutos
-        string artista;
+        string nomeArtista;
 
     public:
-        Musica(const string& nome, double duracao, const string& artista);
+        Musica(const string& nome, double duracao, const string& nomeArtista);
 
         const string& getNome() const;
         double getDuracao() const;
