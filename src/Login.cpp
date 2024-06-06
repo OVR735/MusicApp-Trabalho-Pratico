@@ -1,7 +1,9 @@
-#include <iostream>
 #include "Login.h"
+#include <iostream>
 
-pair <bool, int> Login::fazerLogin() {
+Login::Login() {}
+
+int Login::fazerLogin() {
     std::string email, senha;
 
     std::cout << "Digite o e-mail: ";
@@ -9,16 +11,12 @@ pair <bool, int> Login::fazerLogin() {
     std::cout << "Digite a senha: ";
     std::cin >> senha;
 
-    pair<bool, int> resultado = autenticacao.validarLogin(email, senha);
-    if (resultado.first) {
+    int userId = autenticacao.validarLogin(email, senha);
+    if (userId != -1) {
         std::cout << "Login realizado com sucesso! Redirecionando para o menu...\n";
+        return userId;
     } else {
         std::cerr << "Erro: Credenciais incorretas.\n";
+        return -1;
     }
-
-    return resultado;
-}
-
-bool Login::obterInfoUsuarioPremium(int id) {
-    return autenticacao.verificarUsuarioPremium(id);
 }

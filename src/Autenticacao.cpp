@@ -2,32 +2,28 @@
 #include <fstream>
 #include "Autenticacao.h"
 #include "JsonService.cpp"
+#include <utility>
 
 using namespace std;
 
 pair<bool, string> Autenticacao::validarRegistro(const string& nome, const string& email, const string& senha) {
-    // Carregando os usuários do arquivo
     JSONService reader;
 
     pair<bool, string> resultado = make_pair(false, "");
 
-    // Abrir o arquivo JSON
     if (!reader.openFile("../data/Usuarios.json")) {
-        resultado.second = "Não foi possível abrir o arquivo musicas.json";
+        resultado.second = "Não foi possível abrir o arquivo Usuarios.json";
         return resultado;
     }
 
-    // Analisar o conteúdo do JSON
     if (!reader.parseJSON()) {
         resultado.second = "Erro ao analisar o arquivo JSON";
         return resultado;
     }
 
-    // Obter o objeto JSON
     json usuarios = reader.getJSON();
-    // Iterar sobre as músicas e exibir seus detalhes
     for (const auto& usuario : usuarios["usuarios"]) {
-        if(email == usuario["email"]) {
+        if (email == usuario["email"]) {
             resultado.first = false;
             resultado.second = "Erro: Email já cadastrado.\n";
             return resultado;
@@ -35,14 +31,13 @@ pair<bool, string> Autenticacao::validarRegistro(const string& nome, const strin
     }
 
     int newId = usuarios["usuarios"].back()["id"];
-    newId += 1;    
+    newId += 1;
     json novoUsuario = {
         {"id", newId},
         {"nome", nome},
         {"email", email},
         {"senha", senha},
         {"playlists", {}},
-        {"premium", false},
     };
 
     usuarios["usuarios"].push_back(novoUsuario);
@@ -59,54 +54,27 @@ pair<bool, string> Autenticacao::validarRegistro(const string& nome, const strin
     return resultado;
 }
 
-pair<bool, int> Autenticacao::validarLogin(const string& email, const string& senha) {
-    JSONService reader;
-
-    pair<bool, int> resultado = make_pair(false, 0);
-
-    if (!reader.openFile("../data/Usuarios.json")) {
-        cerr << "Não foi possível abrir o arquivo Usuarios.json\n";
-        return resultado;
-    }
-
-    if (!reader.parseJSON()) {
-        cerr << "Erro ao analisar o arquivo JSON\n";
-        return resultado;
-    }
-
-    json usuarios = reader.getJSON();
-    for (const auto& usuario : usuarios["usuarios"]) {
-        if(email == usuario["email"] && senha == usuario["senha"]) {
-            resultado.first = true;
-            resultado.second = usuario["id"];
-        }
-    }
-
-    return resultado;
-}
-
-bool Autenticacao::verificarUsuarioPremium(int id) {
+int Autenticacao::validarLogin(const string& email, const string& senha) {
     JSONService reader;
 
     if (!reader.openFile("../data/Usuarios.json")) {
         cerr << "Não foi possível abrir o arquivo Usuarios.json\n";
-        return false;
+        return -1;
     }
 
     if (!reader.parseJSON()) {
         cerr << "Erro ao analisar o arquivo JSON\n";
-        return false;
+        return -1;
     }
 
     json usuarios = reader.getJSON();
     for (const auto& usuario : usuarios["usuarios"]) {
-        if(id == usuario["id"]) {
-            return usuario["premium"];
+        if (email == usuario["email"] && senha == usuario["senha"]) {
+            return usuario["id"];
         }
     }
 
-    cerr << "Usuário não encontrado na base de dados\n";
-    return false;
+    return -1;
 }
 
 void Autenticacao::carregarUsuarios(unordered_map<string, pair<string, string>>& usuarios) {
@@ -126,4 +94,26 @@ void Autenticacao::salvarUsuarios(const unordered_map<string, pair<string, strin
     for (const auto& entry : usuarios) {
         file << entry.first << " " << entry.second.first << " " << entry.second.second << "\n";
     }
+    file.close();
+}
+
+string Autenticacao::obterNomeUsuario(int userId) {
+    JSONService reader;
+
+    if (!reader.openFile("../data/Usuarios.json")) {
+        throw "Não foi possível abrir o arquivo Usuarios.json";
+    }
+
+    if (!reader.parseJSON()) {
+        throw "Erro ao analisar o arquivo JSON";
+    }
+
+    json usuarios = reader.getJSON();
+    for (const auto& usuario : usuarios["usuarios"]) {
+        if (userId == usuario["id"]) {
+            return usuario["nome"];
+        }
+    }
+
+    throw "Usuário não encontrado";
 }

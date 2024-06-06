@@ -5,8 +5,8 @@
 
 class Login {
 public:
-    pair <bool, int> fazerLogin();
-    bool obterInfoUsuarioPremium(int id);
+    Login();
+    int fazerLogin();
 
 private:
     Autenticacao autenticacao;

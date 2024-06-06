@@ -1,33 +1,43 @@
 #include "Menu.h"
 #include <iostream>
 
-Menu::Menu(Usuario& usuario) {
-    if (dynamic_cast<UsuarioFree*>(&usuario)) {
-        cout << "\nAssinatura do tipo grátis." << endl;
-        user = &usuario;
-    } else if (dynamic_cast<UsuarioPremium*>(&usuario)) {
-        cout << "\nAssinatura do tipo premium." << endl;
-        user = &usuario;
-    } else {
-        cout << "\nUsuário é de um tipo desconhecido." << endl;
-    }
-}
+Menu::Menu(int userId) : usuario(userId) {}
 
 void Menu::exibirMenu() {
     int opcao;
     while (true) {
-        cout << "Bem-vindo, " << user->getNome() << "!\n";
-        cout << "1. Operação Exemplo\n2. Logout\nEscolha uma opção: ";
+        cout << "Bem-vindo, " << usuario.getNome() << "!\n";
+        cout << "1. Alterar Credenciais\n2. Operação Exemplo\n3. Logout\nEscolha uma opção: ";
         cin >> opcao;
 
         if (opcao == 1) {
-            operacaoExemplo();
+            alterarCredenciais();
         } else if (opcao == 2) {
+            operacaoExemplo();
+        } else if (opcao == 3) {
             cout << "Logout realizado com sucesso.\n";
             break;
         } else {
             cerr << "Opção inválida.\n";
         }
+    }
+}
+
+void Menu::alterarCredenciais() {
+    string novoNome, novoEmail, novaSenha;
+    cout << "Digite o novo nome: ";
+    cin.ignore();
+    getline(cin, novoNome);
+    cout << "Digite o novo email: ";
+    getline(cin, novoEmail);
+    cout << "Digite a nova senha: ";
+    getline(cin, novaSenha);
+
+    try {
+        usuario.alterarCredenciais(novoNome, novoEmail, novaSenha);
+        cout << "Credenciais atualizadas com sucesso.\n";
+    } catch (const char* msg) {
+        cerr << msg << endl;
     }
 }
 

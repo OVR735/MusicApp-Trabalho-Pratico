@@ -1,12 +1,12 @@
 {
     "usuarios": [
         {
-            "email": "teste@teste.com",
+            "email": "teste@ig.com",
             "id": 1,
-            "nome": "Shaolins",
+            "nome": "Testador",
             "playlists": null,
-            "senha": "1234",
-            "premium": true
+            "premium": true,
+            "senha": "1234"
         },
         {
             "email": "brenda@brenda.com",
@@ -15,8 +15,15 @@
             "playlists": [
                 3
             ],
-            "senha": "1234",
-            "premium": false
+            "premium": false,
+            "senha": "1234"
+        },
+        {
+            "email": "qwert@qwert.com",
+            "id": 3,
+            "nome": "qwert",
+            "playlists": null,
+            "senha": "1234"
         }
     ]
 }

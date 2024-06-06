@@ -1,19 +1,20 @@
 #ifndef MENU_H
 #define MENU_H
-#include "UsuarioFree.h"
-#include "UsuarioPremium.h"
 
 #include <string>
+#include "Usuario.h"
+
 using namespace std;
 
 class Menu {
 public:
-    Menu(Usuario& usuario);
+    Menu(int userId);
     void exibirMenu();
 
 private:
-    Usuario* user;
+    Usuario usuario;
 
+    void alterarCredenciais();
     void operacaoExemplo(); // Placeholder para futuras operações
 };
 

@@ -3,18 +3,18 @@
 
 #include <string>
 #include <unordered_map>
+#include <utility>
+#include "JsonService.h"
 
 using namespace std;
 
 class Autenticacao {
 public:
-    pair<bool, int> validarLogin(const string& email, const string& senha);
-    bool verificarUsuarioPremium(int id);
-    pair<bool, string> validarRegistro(const string& username, const string& email, const string& senha); // Corrigido para retornar pair<bool, string>
-
-private:
+    pair<bool, string> validarRegistro(const string& nome, const string& email, const string& senha);
+    int validarLogin(const string& email, const string& senha);
     void carregarUsuarios(unordered_map<string, pair<string, string>>& usuarios);
     void salvarUsuarios(const unordered_map<string, pair<string, string>>& usuarios);
+    string obterNomeUsuario(int userId);
 };
 
 #endif // AUTENTICACAO_H
