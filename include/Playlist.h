@@ -20,8 +20,9 @@ class Playlist {
 
     public:
         Playlist(const string& nome, const string& descricao, int idUser);
-        pair<bool, string> adicionarMusica();
+        pair<bool, string> adicionarMusica(string nomeMusica);
         pair<bool, string> removerMusica(string nomeMusica);
+        pair<bool, int> buscarMusica(string nomeMusica);
 
         void setNome(string nome);
         void setDescricao(string descricao);

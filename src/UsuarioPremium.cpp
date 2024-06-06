@@ -39,7 +39,7 @@ void UsuarioPremium::adicionarPlaylist(string nome, string descricao)
             {
                 throw "Erro ao escrever no arquivo JSON";
             }
-            cout << "Playlist Criada com sucesso!";
+            cout << "Playlist Criada com sucesso!" << endl;
         }
     }
 }
