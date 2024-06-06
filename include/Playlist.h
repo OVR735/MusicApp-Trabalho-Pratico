@@ -6,6 +6,8 @@
 #include "Musica.h"
 #include "JsonService.h"
 
+#include <utility>
+
 using namespace std;
 
 class Playlist {
@@ -17,16 +19,16 @@ class Playlist {
         vector<Musica> musicas;
 
     public:
+        Playlist(const string& nome, const string& descricao, int idUser);
+        pair<bool, string> adicionarMusica();
+        pair<bool, string> removerMusica(string nomeMusica);
 
-        void adicionarMusica(const Musica& musica);
-        void removerMusica(const string& nomeMusica);
-        void exibirInformacoes();
+        void setNome(string nome);
+        void setDescricao(string descricao);
 
-        void setNome(const string& nome);
-        void setDescricao(const string& descricao);
-
-        const string& getDescricao();
-        const string& getNome();
+        string getDescricao();
+        string getNome();
+        int getID();
 };
 
 #endif // PLAYLIST_H
