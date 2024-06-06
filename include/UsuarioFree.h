@@ -6,7 +6,7 @@
 class UsuarioFree : public Usuario {
 public:
     UsuarioFree(int id):Usuario(id){
-        
+        limitePlaylists = 10;
     };
 
     void playlistRestantes();

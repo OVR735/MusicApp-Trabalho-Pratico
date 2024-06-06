@@ -12,7 +12,7 @@ void UsuarioFree::adicionarPlaylist()
 
     JSONService reader;
 
-    if (limitePlaylists < playlists.size())
+    if (playlists.size() < limitePlaylists)
     {
 
         Playlist newPlaylist("aaaa", "bb", id);
@@ -48,8 +48,6 @@ void UsuarioFree::adicionarPlaylist()
     }
     else
     {
-        throw "Você antigiu o limite de playlists. Assine o premium para músicas sem limite!";
+        cout << "Você antigiu o limite de playlists. Assine o premium para músicas sem limite!";
     }
-
-    throw "deu erro aqui"; // Programar exceção depois
 }

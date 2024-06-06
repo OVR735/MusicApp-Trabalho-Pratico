@@ -26,11 +26,8 @@ Usuario::Usuario(int sessionId){
                 vetor.push_back(idPlaylist);
             }
             playlists = vetor;
-            cout << "coisa";
         }
     }
-
-    throw "deu erro fml"; //Programar exceção depois
 }
 
 const std::string& Usuario::getNome() const { return nome; }

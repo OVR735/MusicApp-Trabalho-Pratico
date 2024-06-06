@@ -16,8 +16,6 @@ int main() {
         } else if (opcao == 2) {
             Login login;
             login.fazerLogin();
-            UsuarioFree userteste(2);
-            userteste.adicionarPlaylist();
          } else if (opcao == 3) {
                 break;
         } else {

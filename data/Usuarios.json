@@ -11,7 +11,9 @@
             "email": "brenda@brenda.com",
             "id": 2,
             "nome": "Brenda",
-            "playlists": null,
+            "playlists": [
+                3
+            ],
             "senha": "1234"
         },
         {
