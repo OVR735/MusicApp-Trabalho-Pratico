@@ -1,49 +1,58 @@
 {
-    "musicas": [
-      {
-        "nome": "Shape of You",
-        "artista": "Ed Sheeran",
-        "duracao": 3.54
-      },
-      {
-        "nome": "Bohemian Rhapsody",
-        "artista": "Queen",
-        "duracao": 5.55
-      },
-      {
-        "nome": "Blinding Lights",
-        "artista": "The Weeknd",
-        "duracao": 3.22
-      },
-      {
-        "nome": "Hotel California",
-        "artista": "Eagles",
-        "duracao": 6.30
-      },
-      {
-        "nome": "Billie Jean",
-        "artista": "Michael Jackson",
-        "duracao": 4.54
-      },
-      {
-        "nome": "Stairway to Heaven",
-        "artista": "Led Zeppelin",
-        "duracao": 8.02
-      },
-      {
-        "nome": "Mr. Brightside",
-        "artista": "The Killers",
-        "duracao": 3.42
-      },
-      {
-        "nome": "Wonderwall",
-        "artista": "Oasis",
-        "duracao": 4.18
-      },
-      {
-        "nome": "Rolling in the Deep",
-        "artista": "Adele",
-        "duracao": 3.48
-      }
-    ]
-  }
+	"musicas": [
+		{
+			"id": 1,
+			"nome": "Shape of You",
+			"artista": "Ed Sheeran",
+			"duracao": 3.54
+		},
+		{
+			"id": 2,
+			"nome": "Bohemian Rhapsody",
+			"artista": "Queen",
+			"duracao": 5.55
+		},
+		{
+			"id": 3,
+			"nome": "Blinding Lights",
+			"artista": "The Weeknd",
+			"duracao": 3.22
+		},
+		{
+			"id": 4,
+			"nome": "Hotel California",
+			"artista": "Eagles",
+			"duracao": 6.30
+		},
+		{
+			"id": 5,
+			"nome": "Billie Jean",
+			"artista": "Michael Jackson",
+			"duracao": 4.54
+		},
+		{
+			"id": 6,
+			"nome": "Stairway to Heaven",
+			"artista": "Led Zeppelin",
+			"duracao": 8.02
+		},
+		{
+			"id": 7,
+			"nome": "Mr. Brightside",
+			"artista": "The Killers",
+			"duracao": 3.42
+		},
+		{
+			"id": 8,
+			"nome": "Wonderwall",
+			"artista": "Oasis",
+			"duracao": 4.18
+		},
+		{
+			"id": 9,
+			"nome": "Rolling in the Deep",
+			"artista": "Adele",
+			"duracao": 3.48
+		}
+	]
+}

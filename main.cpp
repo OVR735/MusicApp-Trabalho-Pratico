@@ -1,8 +1,7 @@
 #include <iostream>
 #include "Registro.h"
 #include "Login.h"
-#include "Menu.h"
-using namespace std;
+#include "include/Playlist.h"
 
 int main() {
     while (true) {
@@ -15,13 +14,9 @@ int main() {
             registro.registrarUsuario();
         } else if (opcao == 2) {
             Login login;
-            string username = login.fazerLogin();
-            if (!username.empty()) {
-                Menu menu(username);
-                menu.exibirMenu();
-            }
-        } else if (opcao == 3) {
-            break;
+            login.fazerLogin();
+         } else if (opcao == 3) {
+                break;
         } else {
             cerr << "Opção inválida.\n";
         }
