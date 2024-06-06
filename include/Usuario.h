@@ -25,13 +25,11 @@ public:
     const string& getEmail() const;
     const string& getSenha() const;
     
-    void adicionarPlaylist();
+    virtual void adicionarPlaylist(string nome, string descricao) = 0;
     void removerPlaylist(const std::string& descricao);
     void playlistRestantes();
 
     void alterarCredenciais(const string& novoNome, const string& novoEmail, const string& novaSenha);
-
-
 };
 
 #endif // USUARIO_H

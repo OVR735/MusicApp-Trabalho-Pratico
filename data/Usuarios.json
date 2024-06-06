@@ -4,7 +4,9 @@
             "email": "teste@ig.com",
             "id": 1,
             "nome": "Testador",
-            "playlists": null,
+            "playlists": [
+                4
+            ],
             "premium": true,
             "senha": "1234"
         },
@@ -22,7 +24,10 @@
             "email": "qwert@qwert.com",
             "id": 3,
             "nome": "qwert",
-            "playlists": null,
+            "playlists": [
+                5
+            ],
+            "premium": false,
             "senha": "1234"
         }
     ]

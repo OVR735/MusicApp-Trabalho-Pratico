@@ -11,7 +11,7 @@ public:
 
     void playlistRestantes();
 
-    void adicionarPlaylist();
+    void adicionarPlaylist(string nome, string descricao) override;
 };
 
 #endif // USUARIOFREE_H

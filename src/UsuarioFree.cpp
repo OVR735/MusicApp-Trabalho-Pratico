@@ -7,7 +7,7 @@ void UsuarioFree::playlistRestantes()
     cout << "Você ainda tem " << limitePlaylists << "restantes!";
 }
 
-void UsuarioFree::adicionarPlaylist()
+void UsuarioFree::adicionarPlaylist(string nome, string descricao)
 {
 
     JSONService reader;
@@ -15,7 +15,7 @@ void UsuarioFree::adicionarPlaylist()
     if (playlists.size() < limitePlaylists)
     {
 
-        Playlist newPlaylist("aaaa", "bb", id);
+        Playlist newPlaylist(nome, descricao, id);
 
         playlists.push_back(newPlaylist.getID());
 
@@ -42,7 +42,7 @@ void UsuarioFree::adicionarPlaylist()
                 if (!reader.writeJSONToFile("../data/Usuarios.json")) {
                     throw "Erro ao escrever no arquivo JSON";
                 }
-                return;
+                cout << "Playlist Criada com sucesso! \n";
             }
         }
     }

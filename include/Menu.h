@@ -1,3 +1,4 @@
+// Menu.h
 #ifndef MENU_H
 #define MENU_H
 
@@ -8,14 +9,15 @@ using namespace std;
 
 class Menu {
 public:
-    Menu(int userId);
+    Menu(Usuario* usuario);
     void exibirMenu();
 
 private:
-    Usuario usuario;
+    Usuario* usuario;
 
     void alterarCredenciais();
     void operacaoExemplo(); // Placeholder para futuras operações
+    void adicionarPlaylistUsuario();
 };
 
 #endif // MENU_H

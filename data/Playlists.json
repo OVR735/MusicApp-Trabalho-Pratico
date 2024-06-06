@@ -22,6 +22,20 @@
             "idUsuario": 2,
             "musicas": null,
             "nome": "aaaa"
+        },
+        {
+            "descricao": "Melhores amigos das musicas ",
+            "id": 4,
+            "idUsuario": 1,
+            "musicas": null,
+            "nome": "Playlist dos amigos"
+        },
+        {
+            "descricao": "Carro",
+            "id": 5,
+            "idUsuario": 3,
+            "musicas": null,
+            "nome": "Músicas Curtidas"
         }
     ]
 }

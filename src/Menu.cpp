@@ -1,19 +1,19 @@
 #include "Menu.h"
 #include <iostream>
 
-Menu::Menu(int userId) : usuario(userId) {}
+Menu::Menu(Usuario* usuario) : usuario(usuario) {}
 
 void Menu::exibirMenu() {
     int opcao;
     while (true) {
-        cout << "Bem-vindo, " << usuario.getNome() << "!\n";
-        cout << "1. Alterar Credenciais\n2. Operação Exemplo\n3. Logout\nEscolha uma opção: ";
+        cout << "Bem-vindo, " << usuario->getNome() << "!\n";
+        cout << "1. Alterar Credenciais\n2. Adicionar Playlist\n3. Logout\nEscolha uma opção: ";
         cin >> opcao;
 
         if (opcao == 1) {
             alterarCredenciais();
         } else if (opcao == 2) {
-            operacaoExemplo();
+            adicionarPlaylistUsuario();
         } else if (opcao == 3) {
             cout << "Logout realizado com sucesso.\n";
             break;
@@ -21,6 +21,17 @@ void Menu::exibirMenu() {
             cerr << "Opção inválida.\n";
         }
     }
+}
+
+void Menu::adicionarPlaylistUsuario(){
+    std::string nomePlaylist, descricaoPlaylist;
+    cout << "Digite o nome da playlist: ";
+    cin.ignore();
+    getline(cin, nomePlaylist);
+    cout << "Digite a descrição da playlist: ";
+    getline(cin, descricaoPlaylist);
+    
+    usuario->adicionarPlaylist(nomePlaylist, descricaoPlaylist);
 }
 
 void Menu::alterarCredenciais() {
@@ -34,7 +45,7 @@ void Menu::alterarCredenciais() {
     getline(cin, novaSenha);
 
     try {
-        usuario.alterarCredenciais(novoNome, novoEmail, novaSenha);
+        usuario->alterarCredenciais(novoNome, novoEmail, novaSenha);
         cout << "Credenciais atualizadas com sucesso.\n";
     } catch (const char* msg) {
         cerr << msg << endl;

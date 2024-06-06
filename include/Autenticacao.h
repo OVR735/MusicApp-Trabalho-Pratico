@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <utility>
 #include "JsonService.h"
+#include "Usuario.h"
 
 using namespace std;
 
@@ -14,7 +15,8 @@ public:
     int validarLogin(const string& email, const string& senha);
     void carregarUsuarios(unordered_map<string, pair<string, string>>& usuarios);
     void salvarUsuarios(const unordered_map<string, pair<string, string>>& usuarios);
-    string obterNomeUsuario(int userId);
+    //string obterNomeUsuario(int userId);
+    bool obterStatusUsuario(int userId);
 };
 
 #endif // AUTENTICACAO_H

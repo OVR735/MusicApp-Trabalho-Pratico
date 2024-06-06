@@ -1,39 +1,45 @@
 #include "UsuarioPremium.h"
 #include <iostream>
 
-
-void UsuarioPremium::playlistRestantes(){
+void UsuarioPremium::playlistRestantes()
+{
     cout << "Aproveite os beneficios do premium! Playlists sem limites";
 }
 
-void UsuarioPremium::adicionarPlaylist() {
+void UsuarioPremium::adicionarPlaylist(string nome, string descricao)
+{
 
     JSONService reader;
-    
-    Playlist newPlaylist("aaaa", "bb", id);
+
+    Playlist newPlaylist(nome, descricao, id);
 
     playlists.push_back(newPlaylist.getID());
 
-    if (!reader.openFile("../data/Usuarios.json")) {
+    if (!reader.openFile("../data/Usuarios.json"))
+    {
         cout << "erro...";
     }
 
     // Analisar o conteúdo do JSON
-    if (!reader.parseJSON()) {
+    if (!reader.parseJSON())
+    {
         cout << "erro...";
     }
 
     json usuarios = reader.getJSON();
 
-    for (const auto& idUsuario : usuarios["id"]) {
-        if(idUsuario == id) {
-            usuarios["playlists"] = playlists;
-            if (!reader.writeJSONToFile("../data/Usuarios.json")) {
+    for (auto &user : usuarios["usuarios"])
+    {
+        if (user["id"] == id)
+        {
+            user["playlists"] = playlists;
+            limitePlaylists--;
+            reader.setJSONData(usuarios);
+            if (!reader.writeJSONToFile("../data/Usuarios.json"))
+            {
                 throw "Erro ao escrever no arquivo JSON";
             }
-            return;
+            cout << "Playlist Criada com sucesso!";
         }
     }
-
-    throw "aqui não passou";
 }
