@@ -1,0 +1,20 @@
+{
+    "playlists": [
+        {
+            "descricao": "Ed Sheeran",
+            "id": 1,
+            "idUsuario": 1,
+            "musicas": [],
+            "nome": "Shape of You"
+        },
+        {
+            "descricao": "teste",
+            "id": 2,
+            "idUsuario": 1,
+            "musicas": [
+                1
+            ],
+            "nome": "teste"
+        }
+    ]
+}

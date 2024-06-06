@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Registro.h"
 #include "Login.h"
+#include "include/Playlist.h"
 
 int main() {
     while (true){
@@ -14,7 +15,7 @@ int main() {
         } else if (opcao == 2) {
             Login login;
             login.fazerLogin();
-         } else if (opcao == 3){
+         } else if (opcao == 3) {
                 break;
         } else {
             std::cerr << "Opção inválida.\n";
