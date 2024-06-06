@@ -1,17 +1,20 @@
 #include <iostream>
 #include "Login.h"
+using namespace std;
 
-void Login::fazerLogin() {
-    std::string email, senha;
+string Login::fazerLogin() {
+    string email, senha;
 
-    std::cout << "Digite o e-mail: ";
-    std::cin >> email;
-    std::cout << "Digite a senha: ";
-    std::cin >> senha;
+    cout << "Digite o e-mail: ";
+    cin >> email;
+    cout << "Digite a senha: ";
+    cin >> senha;
 
     if (autenticacao.validarLogin(email, senha)) {
-        std::cout << "Login realizado com sucesso! Redirecionando para o menu...\n";
+        cout << "Login realizado com sucesso! Redirecionando para o menu...\n";
+        return autenticacao.obterNomeUsuario(email);
     } else {
-        std::cerr << "Erro: Credenciais incorretas.\n";
+        cerr << "Erro: Credenciais incorretas.\n";
+        return "";
     }
 }

@@ -2,7 +2,6 @@
 #include <fstream>
 #include "Autenticacao.h"
 #include "JsonService.cpp"
-#include <utility>
 
 using namespace std;
 
@@ -99,5 +98,4 @@ void Autenticacao::salvarUsuarios(const unordered_map<string, pair<string, strin
     for (const auto& entry : usuarios) {
         file << entry.first << " " << entry.second.first << " " << entry.second.second << "\n";
     }
-    file.close();
 }

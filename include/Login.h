@@ -2,10 +2,12 @@
 #define LOGIN_H
 
 #include "Autenticacao.h"
+#include <string>
+using namespace std;
 
 class Login {
 public:
-    void fazerLogin();
+    string fazerLogin();
 
 private:
     Autenticacao autenticacao;
