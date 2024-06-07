@@ -42,7 +42,7 @@ void UsuarioFree::adicionarPlaylist(string nome, string descricao)
                 if (!reader.writeJSONToFile("../data/Usuarios.json")) {
                     throw "Erro ao escrever no arquivo JSON";
                 }
-                cout << "Playlist Criada com sucesso! \n";
+                cout << "Playlist Criada com sucesso! \n" << endl;
             }
         }
     }

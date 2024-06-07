@@ -36,6 +36,13 @@
             "idUsuario": 3,
             "musicas": null,
             "nome": "Músicas Curtidas"
+        },
+        {
+            "descricao": "relaxar",
+            "id": 6,
+            "idUsuario": 1,
+            "musicas": null,
+            "nome": "pulmao quente coracao gelado"
         }
     ]
 }

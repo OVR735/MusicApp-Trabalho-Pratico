@@ -1,9 +1,38 @@
 #include <iostream>
 #include "../include/Playlist.h"
 #include "JsonService.h"
+#include <algorithm>
 #include <utility>
 
 using namespace std;
+
+Playlist::Playlist(int id) {
+    JSONService reader;
+
+    if (!reader.openFile("../data/Playlists.json")) {
+        cout << "Não foi possível abrir o arquivo playlists.json" << endl;
+    }
+
+    if (!reader.parseJSON()) {
+        cout << "Erro ao analisar o arquivo JSON" << endl;
+    }
+
+    json playlists = reader.getJSON();
+
+    for (const auto& play : playlists["playlists"]) {
+        if(play["id"] == id) {
+            id = play["id"];
+            idUsuario = play["idUsuario"];
+            nome = play["nome"];
+            descricao = play["descricao"];
+            vector<int> muscs = play["musicas"];
+            for (int i = 0; i < muscs.size(); i++) {
+                musicas.push_back(muscs[i]);
+            }
+            break;
+        }
+    }
+}
 
 Playlist::Playlist(const string& nome, const string& descricao, int idUser) : nome(nome), descricao(descricao), idUsuario(idUser) {
     JSONService reader;
@@ -39,50 +68,202 @@ Playlist::Playlist(const string& nome, const string& descricao, int idUser) : no
     }
 }
 
-pair<bool, string> Playlist::adicionarMusica() {
-    JSONService reader;
+void Playlist::listarMusicas() {
+    JSONService readerMusicas;
 
-    pair<bool, string> resultado = make_pair(false, "");
+    if (!readerMusicas.openFile("../data/Musicas.json")) {
+        return;
+    }
 
-    if (!reader.openFile("../data/Playlists.json")) {
-        resultado.second = "Não foi possível abrir o arquivo playlists.json";
+    if (!readerMusicas.parseJSON()) {
+        return;
+    }
+
+    json musicas = readerMusicas.getJSON();
+
+    int counter = 1;
+
+    for (const auto& musc : musicas["musicas"]) {
+        int idMusica = musc["id"];
+        if(std::find(musicas.begin(), musicas.end(), idMusica) != musicas.end()) {
+            cout << counter << ") Nome: " << musc["nome"] << ", Artista: " << musc["artista"] << ", Duração: " << musc["duracao"] << endl;
+        }
+        counter++;
+    }
+}
+
+pair<bool, int> Playlist::buscarMusica(string nomeMusica) {
+    JSONService readerMusicas;
+
+    pair<bool, int> resultado = make_pair(false, 0);
+
+    if (!readerMusicas.openFile("../data/Musicas.json")) {
         return resultado;
     }
 
-    if (!reader.parseJSON()) {
-        resultado.second = "Erro ao analisar o arquivo JSON";
+    if (!readerMusicas.parseJSON()) {
         return resultado;
     }
 
-    json playlists = reader.getJSON();
+    json musicas = readerMusicas.getJSON();
 
-    for (auto& playlist : playlists["playlists"]) {
-        if(getID() == playlist["id"]) {  
-            json novaMusica = {
-                // {"id", id},
-                // {"nome", musica.getNome()},
-                // {"artista", musica.getArtista()},
-                // {"duracao", musica.getDuracao()}
-            };
-
-            playlist["musicas"].push_back(1);
-
-            reader.setJSONData(playlists);
-
-            if (!reader.writeJSONToFile("../data/Playlists.json")) {
-                resultado.first = false;
-                resultado.second = "Erro ao atualizar o arquivo JSON da playlist com a nova música.";
-                return resultado;
-            }
+    for (const auto& musc : musicas["musicas"]) {
+        string nome = musc["nome"];
+        size_t found = nome.find(nomeMusica);
+        if(found != string::npos) {
+            resultado.first = true;
+            resultado.second = musc["id"];
+            return resultado;
         }
     }
 
     return resultado;
 }
 
-pair<bool, string> Playlist::removerMusica(string nomeMusica) {
-    JSONService reader;
+pair<bool, string> Playlist::adicionarMusica(string nomeMusica) {
+    JSONService readerPlaylists;
+    JSONService readerMusicas;
+
     pair<bool, string> resultado = make_pair(false, "");
+
+    if (!readerMusicas.openFile("../data/Musicas.json")) {
+        resultado.second = "Não foi possível abrir o arquivo musicas.json";
+        return resultado;
+    }
+
+    if (!readerPlaylists.openFile("../data/Playlists.json")) {
+        resultado.second = "Não foi possível abrir o arquivo playlists.json";
+        return resultado;
+    }
+
+    if (!readerPlaylists.parseJSON()) {
+        resultado.second = "Erro ao analisar o arquivo JSON de playlists";
+        return resultado;
+    }
+
+    if (!readerMusicas.parseJSON()) {
+        resultado.second = "Erro ao analisar o arquivo JSON de músicas.";
+        return resultado;
+    }
+
+    json playlists = readerPlaylists.getJSON();
+    json musicas = readerMusicas.getJSON();
+
+    int idMusica = 0;
+
+    // Encontrar o id da música
+    for (const auto& musc : musicas["musicas"]) {
+        string nome = musc["nome"];
+        size_t found = nome.find(nomeMusica);
+        if(found != string::npos) {
+            idMusica = musc["id"];
+            break;
+        }
+    }
+
+    if (idMusica == 0) {
+        resultado.second = "Música não encontrada.";
+        return resultado;
+    }
+
+    for (auto& playlist : playlists["playlists"]) {
+        if (getID() == playlist["id"]) {
+            auto& musicasNaPlaylist = playlist["musicas"];
+            auto it = std::find(musicasNaPlaylist.begin(), musicasNaPlaylist.end(), idMusica);
+
+            if (it != musicasNaPlaylist.end()) {
+                resultado.second = "Música já está na playlist.";
+                return resultado;
+            }
+
+            musicasNaPlaylist.push_back(idMusica);
+
+            readerPlaylists.setJSONData(playlists);
+
+            if (!readerPlaylists.writeJSONToFile("../data/Playlists.json")) {
+                resultado.second = "Erro ao atualizar o arquivo JSON da playlist com a nova música.";
+                return resultado;
+            }
+
+            resultado.first = true;
+            return resultado;
+        }
+    }
+
+    resultado.second = "Playlist não encontrada.";
+    return resultado;
+}
+
+pair<bool, string> Playlist::removerMusica(string nomeMusica) {
+    JSONService readerPlaylists;
+    JSONService readerMusicas;
+
+    pair<bool, string> resultado = make_pair(false, "");
+
+    if (!readerMusicas.openFile("../data/Musicas.json")) {
+        resultado.second = "Não foi possível abrir o arquivo musicas.json";
+        return resultado;
+    }
+
+    if (!readerPlaylists.openFile("../data/Playlists.json")) {
+        resultado.second = "Não foi possível abrir o arquivo playlists.json";
+        return resultado;
+    }
+
+    if (!readerPlaylists.parseJSON()) {
+        resultado.second = "Erro ao analisar o arquivo JSON de playlists";
+        return resultado;
+    }
+
+    if (!readerMusicas.parseJSON()) {
+        resultado.second = "Erro ao analisar o arquivo JSON de músicas.";
+        return resultado;
+    }
+
+    json playlists = readerPlaylists.getJSON();
+    json musicas = readerMusicas.getJSON();
+
+    int idMusica = 0;
+
+    for (const auto& musc : musicas["musicas"]) {
+        string nome = musc["nome"];
+        size_t found = nome.find(nomeMusica);
+        if(found != string::npos) {
+            idMusica = musc["id"];
+            break;
+        }
+    }
+
+    if (idMusica == 0) {
+        resultado.second = "Música não encontrada.";
+        return resultado;
+    }
+
+    for (auto& playlist : playlists["playlists"]) {
+        if (getID() == playlist["id"]) {
+            auto& musicasNaPlaylist = playlist["musicas"];
+            auto it = std::find(musicasNaPlaylist.begin(), musicasNaPlaylist.end(), idMusica);
+
+            if (it == musicasNaPlaylist.end()) {
+                resultado.second = "Música não encontrada na playlist.";
+                return resultado;
+            }
+
+            musicasNaPlaylist.erase(it);
+
+            readerPlaylists.setJSONData(playlists);
+
+            if (!readerPlaylists.writeJSONToFile("../data/Playlists.json")) {
+                resultado.second = "Erro ao atualizar o arquivo JSON da playlist.";
+                return resultado;
+            }
+
+            resultado.first = true;
+            return resultado;
+        }
+    }
+
+    resultado.second = "Playlist não encontrada.";
     return resultado;
 }
 
@@ -100,6 +281,10 @@ string Playlist::getDescricao() {
 
 string Playlist::getNome() {
     return nome;
+}
+
+void Playlist::setUsuarioDono(int idUsuario) {
+    this->idUsuario = idUsuario;
 }
 
 int Playlist::getID() {

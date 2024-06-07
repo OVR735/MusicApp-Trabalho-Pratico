@@ -18,6 +18,8 @@ private:
     void alterarCredenciais();
     void operacaoExemplo(); // Placeholder para futuras operações
     void adicionarPlaylistUsuario();
+    vector<int> exibirPlaylists();
+    void exibirMenuPlaylist(int idPlaylist);
 };
 
 #endif // MENU_H
