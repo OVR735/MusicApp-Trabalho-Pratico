@@ -16,13 +16,18 @@ class Playlist {
         int idUsuario;
         string nome;
         string descricao;
-        vector<Musica> musicas;
+        
+        void setUsuarioDono(int idUsuario);
 
     public:
+        vector<int> musicas;
+
+        Playlist(int id);
         Playlist(const string& nome, const string& descricao, int idUser);
         pair<bool, string> adicionarMusica(string nomeMusica);
         pair<bool, string> removerMusica(string nomeMusica);
         pair<bool, int> buscarMusica(string nomeMusica);
+        void listarMusicas();
 
         void setNome(string nome);
         void setDescricao(string descricao);

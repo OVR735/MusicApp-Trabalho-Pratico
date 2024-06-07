@@ -1,9 +1,38 @@
 #include <iostream>
 #include "../include/Playlist.h"
 #include "JsonService.h"
+#include <algorithm>
 #include <utility>
 
 using namespace std;
+
+Playlist::Playlist(int id) {
+    JSONService reader;
+
+    if (!reader.openFile("../data/Playlists.json")) {
+        cout << "Não foi possível abrir o arquivo playlists.json" << endl;
+    }
+
+    if (!reader.parseJSON()) {
+        cout << "Erro ao analisar o arquivo JSON" << endl;
+    }
+
+    json playlists = reader.getJSON();
+
+    for (const auto& play : playlists["playlists"]) {
+        if(play["id"] == id) {
+            id = play["id"];
+            idUsuario = play["idUsuario"];
+            nome = play["nome"];
+            descricao = play["descricao"];
+            vector<int> muscs = play["musicas"];
+            for (int i = 0; i < muscs.size(); i++) {
+                musicas.push_back(muscs[i]);
+            }
+            break;
+        }
+    }
+}
 
 Playlist::Playlist(const string& nome, const string& descricao, int idUser) : nome(nome), descricao(descricao), idUsuario(idUser) {
     JSONService reader;
@@ -36,6 +65,30 @@ Playlist::Playlist(const string& nome, const string& descricao, int idUser) : no
 
     if (!reader.writeJSONToFile("../data/Playlists.json")) {
         cout << "Erro ao atualizar o arquivo JSON com a nova playlist." << endl;
+    }
+}
+
+void Playlist::listarMusicas() {
+    JSONService readerMusicas;
+
+    if (!readerMusicas.openFile("../data/Musicas.json")) {
+        return;
+    }
+
+    if (!readerMusicas.parseJSON()) {
+        return;
+    }
+
+    json musicas = readerMusicas.getJSON();
+
+    int counter = 1;
+
+    for (const auto& musc : musicas["musicas"]) {
+        int idMusica = musc["id"];
+        if(std::find(musicas.begin(), musicas.end(), idMusica) != musicas.end()) {
+            cout << counter << ") Nome: " << musc["nome"] << ", Artista: " << musc["artista"] << ", Duração: " << musc["duracao"] << endl;
+        }
+        counter++;
     }
 }
 
@@ -100,7 +153,9 @@ pair<bool, string> Playlist::adicionarMusica(string nomeMusica) {
 
     // Encontrar o id da música
     for (const auto& musc : musicas["musicas"]) {
-        if (musc["nome"] == nomeMusica) {
+        string nome = musc["nome"];
+        size_t found = nome.find(nomeMusica);
+        if(found != string::npos) {
             idMusica = musc["id"];
             break;
         }
@@ -171,7 +226,9 @@ pair<bool, string> Playlist::removerMusica(string nomeMusica) {
     int idMusica = 0;
 
     for (const auto& musc : musicas["musicas"]) {
-        if (musc["nome"] == nomeMusica) {
+        string nome = musc["nome"];
+        size_t found = nome.find(nomeMusica);
+        if(found != string::npos) {
             idMusica = musc["id"];
             break;
         }
@@ -224,6 +281,10 @@ string Playlist::getDescricao() {
 
 string Playlist::getNome() {
     return nome;
+}
+
+void Playlist::setUsuarioDono(int idUsuario) {
+    this->idUsuario = idUsuario;
 }
 
 int Playlist::getID() {
