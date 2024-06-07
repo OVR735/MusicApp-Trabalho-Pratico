@@ -17,6 +17,9 @@ protected:
     int limitePlaylists;
     vector<int> playlists;
 
+private: 
+    void removeElement(std::vector<int>& vec, int value);
+
 public:
     Usuario(int id);
 
@@ -26,7 +29,7 @@ public:
     const string& getSenha() const;
     
     virtual void adicionarPlaylist(string nome, string descricao) = 0;
-    void removerPlaylist(const std::string& descricao);
+    void removerPlaylist(int idPlaylist);
     void playlistRestantes();
 
     void alterarCredenciais(const string& novoNome, const string& novoEmail, const string& novaSenha);
