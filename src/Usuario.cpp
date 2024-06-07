@@ -112,7 +112,7 @@ void Usuario::removerPlaylist(int idPlaylist)
 
 		readerPlaylists.setJSONData(playlists);
 
-		if (!readerUsuarios.writeJSONToFile("../data/Playlists.json"))
+		if (!readerPlaylists.writeJSONToFile("../data/Playlists.json"))
 		{
 			throw "Erro ao atualizar o arquivo JSON";
 		}

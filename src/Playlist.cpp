@@ -25,10 +25,12 @@ Playlist::Playlist(int id) {
             idUsuario = play["idUsuario"];
             nome = play["nome"];
             descricao = play["descricao"];
-            vector<int> muscs = play["musicas"];
+            
+            auto &muscs = play["musicas"];
             for (int i = 0; i < muscs.size(); i++) {
                 musicas.push_back(muscs[i]);
             }
+            
             break;
         }
     }
@@ -79,11 +81,11 @@ void Playlist::listarMusicas() {
         return;
     }
 
-    json musicas = readerMusicas.getJSON();
+    json musicasJson = readerMusicas.getJSON();
 
     int counter = 1;
 
-    for (const auto& musc : musicas["musicas"]) {
+    for (const auto& musc : musicasJson["musicas"]) {
         int idMusica = musc["id"];
         if(std::find(musicas.begin(), musicas.end(), idMusica) != musicas.end()) {
             cout << counter << ") Nome: " << musc["nome"] << ", Artista: " << musc["artista"] << ", Duração: " << musc["duracao"] << endl;

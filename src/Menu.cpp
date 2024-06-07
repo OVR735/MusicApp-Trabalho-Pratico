@@ -20,6 +20,7 @@ void Menu::exibirMenu() {
             cout << "Escolha uma playlist: ";
             cin >> selectedId;
             int idPlaylist = playlistsIds[selectedId-1];
+            cout << idPlaylist << endl;
             exibirMenuPlaylist(idPlaylist);
         } else if (opcao == 4) {
             cout << "Logout realizado com sucesso.\n";
@@ -86,8 +87,8 @@ vector<int> Menu::exibirPlaylists() {
         if (playlist["idUsuario"] == usuario->getId()) {
             playlistsIds.push_back(playlist["id"]);
             cout << count << "): Nome: " << playlist["nome"] << ", Descrição: " << playlist["descricao"] << "\n";
+            count++;
         }
-        count++;
     }
 
     return playlistsIds;
@@ -124,7 +125,7 @@ void Menu::exibirMenuPlaylist(int idPlaylist) {
 
     int opcao;
     while (true) {
-        cout << "1. Adicionar música\n2. Remover música\n3. Mostrar músicas\n4. Voltar\nEscolha uma opção: ";
+        cout << "1. Adicionar música\n2. Remover música\n3. Mostrar músicas\n4. Remover Playlist \n5. Voltar\nEscolha uma opção: ";
         cin >> opcao;
 
         if (opcao == 1) {
@@ -141,8 +142,10 @@ void Menu::exibirMenuPlaylist(int idPlaylist) {
         } else if (opcao == 3) {
             playlistEncontrada.listarMusicas();
         } else if (opcao == 4) {
+            usuario->removerPlaylist(idPlaylist);
+        } else if(opcao==5){
             break;
-        } else {
+        }else {
             cerr << "Opção inválida.\n";
         }
     }

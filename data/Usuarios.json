@@ -5,7 +5,6 @@
             "id": 1,
             "nome": "Testador",
             "playlists": [
-                4,
                 6
             ],
             "premium": true,
