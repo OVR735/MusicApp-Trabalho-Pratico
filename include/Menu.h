@@ -20,6 +20,7 @@ private:
     void adicionarPlaylistUsuario();
     vector<int> exibirPlaylists();
     void exibirMenuPlaylist(int idPlaylist);
+    void tornarUsuarioPremium();
 };
 
 #endif // MENU_H

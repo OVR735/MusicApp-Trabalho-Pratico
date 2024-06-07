@@ -7,7 +7,7 @@ void Menu::exibirMenu() {
     int opcao;
     while (true) {
         cout << "Bem-vindo, " << usuario->getNome() << "!\n";
-        cout << "1. Alterar Credenciais\n2. Adicionar Playlist\n3. Mostrar minhas Playlists\n4. Logout\nEscolha uma opção: ";
+        cout << "1. Alterar Credenciais\n2. Adicionar Playlist\n3. Mostrar minhas Playlists\n4. Logout\n5. Me tornar Premium\nEscolha uma opção: ";
         cin >> opcao;
 
         if (opcao == 1) {
@@ -25,6 +25,8 @@ void Menu::exibirMenu() {
         } else if (opcao == 4) {
             cout << "Logout realizado com sucesso.\n";
             break;
+         } else if (opcao == 5) {
+            tornarUsuarioPremium();
         } else {
             cerr << "Opção inválida.\n";
         }
@@ -57,6 +59,14 @@ void Menu::alterarCredenciais() {
         cout << "Credenciais atualizadas com sucesso.\n";
     } catch (const char* msg) {
         cerr << msg << endl;
+    }
+}
+
+void Menu::tornarUsuarioPremium() {
+    if (usuario->isPremium()) {
+        cout << "\n\nVocê já é um usuário premium.\n\n";
+    } else {
+        usuario->tornarPremium();
     }
 }
 

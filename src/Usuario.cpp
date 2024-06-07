@@ -25,6 +25,7 @@ Usuario::Usuario(int sessionId)
 			nome = user["nome"];
 			email = user["email"];
 			senha = user["senha"];
+			premium = user["premium"];
 			for (auto &idPlaylist : user["playlists"])
 			{
 				playlists.push_back(idPlaylist);
@@ -39,6 +40,7 @@ const int Usuario::getId() const { return id; }
 const std::string& Usuario::getNome() const { return nome; }
 const std::string& Usuario::getEmail() const { return email; }
 const std::string& Usuario::getSenha() const { return senha; }
+const bool Usuario::isPremium() const { return premium; }
 
 void Usuario::removerPlaylist(int idPlaylist)
 {
@@ -157,4 +159,31 @@ void Usuario::alterarCredenciais(const string &novoNome, const string &novoEmail
 	}
 
 	throw "Usuário não encontrado";
+}
+
+void Usuario::tornarPremium() {
+    JSONService reader;
+
+    if (!reader.openFile("../data/Usuarios.json")) {
+        throw "Não foi possível abrir o arquivo Usuarios.json";
+    }
+
+    if (!reader.parseJSON()) {
+        throw "Erro ao analisar o arquivo JSON";
+    }
+
+    json usuarios = reader.getJSON();
+
+    for (auto& user : usuarios["usuarios"]) {
+        if (user["id"] == id) {
+            user["premium"] = true;
+            premium = true;
+            reader.setJSONData(usuarios);
+            if (!reader.writeJSONToFile("../data/Usuarios.json")) {
+                throw "Erro ao escrever no arquivo JSON";
+            }
+            cout << "\n\nAgora você é um usuário premium!\n\n";
+            return;
+        }
+    }
 }

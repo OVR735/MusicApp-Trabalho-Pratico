@@ -14,6 +14,7 @@ protected:
     string nome;
     string email;
     string senha;
+    bool premium;
     int limitePlaylists;
     vector<int> playlists;
 
@@ -27,10 +28,12 @@ public:
     const string& getNome() const;
     const string& getEmail() const;
     const string& getSenha() const;
+    const bool isPremium() const;
     
     virtual void adicionarPlaylist(string nome, string descricao) = 0;
     void removerPlaylist(int idPlaylist);
     void playlistRestantes();
+    void tornarPremium();
 
     void alterarCredenciais(const string& novoNome, const string& novoEmail, const string& novaSenha);
 };
