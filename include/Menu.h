@@ -18,6 +18,7 @@ private:
     void alterarCredenciais();
     void operacaoExemplo(); // Placeholder para futuras operações
     void adicionarPlaylistUsuario();
+    void exibirPlaylists();
 };
 
 #endif // MENU_H

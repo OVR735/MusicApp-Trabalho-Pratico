@@ -29,7 +29,7 @@ Usuario::Usuario(int sessionId) {
 
     throw "Usuário não encontrado";
 }
-
+const int Usuario::getId() const { return id; }
 const std::string& Usuario::getNome() const { return nome; }
 const std::string& Usuario::getEmail() const { return email; }
 const std::string& Usuario::getSenha() const { return senha; }
