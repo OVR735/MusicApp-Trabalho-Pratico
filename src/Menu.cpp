@@ -1,13 +1,23 @@
 #include "Menu.h"
 #include <iostream>
+#include <cstdlib>
 
 Menu::Menu(Usuario* usuario) : usuario(usuario) {}
+
+void Menu::clearConsole() {
+#ifdef _WIN32
+    system("cls");
+#else
+    system("clear");
+#endif
+}
 
 void Menu::exibirMenu() {
     int opcao;
     cout << "Bem-vindo, " << usuario->getNome() << "!\n";
     while (true) {
-        cout << "1. Alterar Credenciais\n2. Adicionar Playlist\n3. Mostrar minhas Playlists\n4. Logout\nEscolha uma opção: ";
+        clearConsole();
+        cout << "1. Alterar Credenciais\n2. Adicionar Playlist\n3. Mostrar minhas Playlists\n4. Logout\n5. Me tornar Premium\nEscolha uma opção: ";
         cin >> opcao;
 
         if (opcao == 1) {
@@ -25,8 +35,11 @@ void Menu::exibirMenu() {
                 exibirMenuPlaylist(idPlaylist);
             }
         } else if (opcao == 4) {
+            clearConsole();
             cout << "Logout realizado com sucesso.\n";
             break;
+         } else if (opcao == 5) {
+            tornarUsuarioPremium();
         } else {
             cerr << "Opção inválida.\n";
         }
@@ -59,6 +72,14 @@ void Menu::alterarCredenciais() {
         cout << "Credenciais atualizadas com sucesso.\n";
     } catch (const char* msg) {
         cerr << msg << endl;
+    }
+}
+
+void Menu::tornarUsuarioPremium() {
+    if (usuario->isPremium()) {
+        cout << "\n\nVocê já é um usuário premium.\n\n";
+    } else {
+        usuario->tornarPremium();
     }
 }
 
