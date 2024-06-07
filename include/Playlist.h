@@ -27,7 +27,6 @@ class Playlist {
         pair<bool, string> adicionarMusica(int idMusica);
         pair<bool, string> removerMusica(string nomeMusica);
         pair<bool, int> buscarMusica(string nomeMusica);
-        vector<int> obterMusicasPorString(string nomeMusica);
         void listarMusicas();
 
         void setNome(string nome);

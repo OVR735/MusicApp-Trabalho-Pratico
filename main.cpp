@@ -4,6 +4,7 @@
 #include "Menu.h"
 #include "UsuarioPremium.h"
 #include "UsuarioFree.h"
+#include "Services.h"
 
 void exibirMenuParaUsuario(int userId, bool userStatus) {
     if (userStatus) {
@@ -18,7 +19,7 @@ void exibirMenuParaUsuario(int userId, bool userStatus) {
 }
 
 int main() {
-    Autenticacao autenticacao;
+    Services services;
     while (true) {
         int opcao;
         std::cout << "1. Registrar\n2. Login\n3. Sair\nEscolha uma opção: ";
@@ -31,7 +32,7 @@ int main() {
             Login login;
             int userId = login.fazerLogin();
             if (userId != -1) {
-                bool userStatus = autenticacao.obterStatusUsuario(userId);
+                bool userStatus = services.obterStatusUsuario(userId);
                 exibirMenuParaUsuario(userId, userStatus);
             } else {
                 std::cerr << "Falha no login. Tente novamente.\n";

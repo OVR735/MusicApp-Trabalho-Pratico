@@ -21,7 +21,6 @@ private:
     vector<int> exibirPlaylists();
     void exibirMenuPlaylist(int idPlaylist);
     void tornarUsuarioPremium();
-    void clearConsole();
 };
 
 #endif // MENU_H

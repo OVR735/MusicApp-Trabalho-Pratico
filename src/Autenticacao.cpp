@@ -99,27 +99,6 @@ void Autenticacao::salvarUsuarios(const unordered_map<string, pair<string, strin
     file.close();
 }
 
-bool Autenticacao::obterStatusUsuario(int userId) {
-    JSONService reader;
-
-    if (!reader.openFile("../data/Usuarios.json")) {
-        throw "Não foi possível abrir o arquivo Usuarios.json";
-    }
-
-    if (!reader.parseJSON()) {
-        throw "Erro ao analisar o arquivo JSON";
-    }
-
-    json usuarios = reader.getJSON();
-    for (const auto& usuario : usuarios["usuarios"]) {
-        if (userId == usuario["id"]) {
-            return usuario["premium"];
-        }
-    }
-
-    throw "Usuário não encontrado";
-}
-
 /* string Autenticacao::obterNomeUsuario(int userId) {
     JSONService reader;
 

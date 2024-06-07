@@ -4,14 +4,6 @@
 
 Menu::Menu(Usuario* usuario) : usuario(usuario) {}
 
-void Menu::clearConsole() {
-#ifdef _WIN32
-    system("cls");
-#else
-    system("clear");
-#endif
-}
-
 void Menu::exibirMenu() {
     int opcao;
     cout << "Bem-vindo, " << usuario->getNome() << "!\n";
@@ -123,6 +115,7 @@ vector<int> Menu::exibirPlaylists() {
 
 void Menu::exibirMenuPlaylist(int idPlaylist) {
     JSONService reader;
+    Services services;
 
     if (!reader.openFile("../data/Playlists.json")) {
         cout << "Não foi possível abrir o arquivo playlists.json\n";
@@ -154,6 +147,7 @@ void Menu::exibirMenuPlaylist(int idPlaylist) {
     while (true) {
         cout << "1. Adicionar música\n2. Remover música\n3. Mostrar músicas\n4. Remover Playlist \n5. Voltar\nEscolha uma opção: ";
         cin >> opcao;
+        
 
         if (opcao == 1) {
             string nomeMusica;
@@ -161,9 +155,7 @@ void Menu::exibirMenuPlaylist(int idPlaylist) {
             cin.ignore();
             getline(cin, nomeMusica);
 
-            std::vector<int> musicasEncontradas = playlistEncontrada.obterMusicasPorString(nomeMusica);
-
-            
+            std::vector<int> musicasEncontradas = services.obterMusicasPorString(nomeMusica);
 
             
             //playlistEncontrada.adicionarMusica(nomeMusica);

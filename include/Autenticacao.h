@@ -16,7 +16,6 @@ public:
     void carregarUsuarios(unordered_map<string, pair<string, string>>& usuarios);
     void salvarUsuarios(const unordered_map<string, pair<string, string>>& usuarios);
     //string obterNomeUsuario(int userId);
-    bool obterStatusUsuario(int userId);
 };
 
 #endif // AUTENTICACAO_H
