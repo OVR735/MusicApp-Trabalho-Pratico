@@ -4,14 +4,14 @@
             "descricao": "bb",
             "id": 3,
             "idUsuario": 2,
-            "musicas": null,
+            "musicas": [4],
             "nome": "aaaa"
         },
         {
             "descricao": "Melhores amigos das musicas ",
             "id": 4,
             "idUsuario": 1,
-            "musicas": null,
+            "musicas": [4],
             "nome": "Playlist dos amigos"
         },
         {

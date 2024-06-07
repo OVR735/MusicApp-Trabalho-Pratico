@@ -92,6 +92,9 @@ void Playlist::listarMusicas() {
         }
         counter++;
     }
+    if(counter == 0) {
+        cout << "Essa playlist ainda não tem músicas! Pesquise e adicione novas faixas. \n" << endl;
+    }
 }
 
 pair<bool, int> Playlist::buscarMusica(string nomeMusica) {
@@ -122,7 +125,7 @@ pair<bool, int> Playlist::buscarMusica(string nomeMusica) {
     return resultado;
 }
 
-pair<bool, string> Playlist::adicionarMusica(string nomeMusica) {
+pair<bool, string> Playlist::adicionarMusica(int idMusica) {
     JSONService readerPlaylists;
     JSONService readerMusicas;
 
@@ -150,10 +153,11 @@ pair<bool, string> Playlist::adicionarMusica(string nomeMusica) {
 
     json playlists = readerPlaylists.getJSON();
     json musicas = readerMusicas.getJSON();
+    
 
-    int idMusica = 0;
 
-    // Encontrar o id da música
+
+/*     // Encontrar o id da música
     for (const auto& musc : musicas["musicas"]) {
         string nome = musc["nome"];
         size_t found = nome.find(nomeMusica);
@@ -192,8 +196,35 @@ pair<bool, string> Playlist::adicionarMusica(string nomeMusica) {
         }
     }
 
-    resultado.second = "Playlist não encontrada.";
+    resultado.second = "Playlist não encontrada."; */
     return resultado;
+}
+
+vector<int> Playlist::obterMusicasPorString(string pesquisa){
+    JSONService reader;
+
+    if (!reader.openFile("../data/Musicas.json")) {
+        throw "Não foi possível abrir o arquivo Musicas.json";
+    }
+
+    if (!reader.parseJSON()) {
+        throw "Erro ao analisar o arquivo JSON";
+    }
+
+    json musicas = reader.getJSON();
+
+    std::vector<int> result;
+
+    for (const auto& musc : musicas["musicas"]) {
+        string nomeMusica = musc["nome"];
+        string nomeArtista = musc["artista"];
+
+        if(nomeMusica.find(pesquisa) != std::string::npos || nomeArtista.find(pesquisa) != std::string::npos){
+            result.push_back(musc["id"]);
+        }
+    }
+
+    return result;
 }
 
 pair<bool, string> Playlist::removerMusica(string nomeMusica) {

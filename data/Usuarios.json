@@ -29,6 +29,14 @@
             ],
             "premium": false,
             "senha": "1234"
+        },
+        {
+            "email": "otavioteste@gmail.com",
+            "id": 4,
+            "nome": "Otavio",
+            "playlists": null,
+            "premium": false,
+            "senha": "1234"
         }
     ]
 }

@@ -5,8 +5,8 @@ Menu::Menu(Usuario* usuario) : usuario(usuario) {}
 
 void Menu::exibirMenu() {
     int opcao;
+    cout << "Bem-vindo, " << usuario->getNome() << "!\n";
     while (true) {
-        cout << "Bem-vindo, " << usuario->getNome() << "!\n";
         cout << "1. Alterar Credenciais\n2. Adicionar Playlist\n3. Mostrar minhas Playlists\n4. Logout\nEscolha uma opção: ";
         cin >> opcao;
 
@@ -17,11 +17,13 @@ void Menu::exibirMenu() {
         } else if (opcao == 3){
             int selectedId = 0;
             vector<int> playlistsIds = exibirPlaylists();
-            cout << "Escolha uma playlist: ";
-            cin >> selectedId;
-            int idPlaylist = playlistsIds[selectedId-1];
-            cout << idPlaylist << endl;
-            exibirMenuPlaylist(idPlaylist);
+            if(playlistsIds.size() != 0){
+                cout << "Escolha uma playlist: ";
+                cin >> selectedId;
+                int idPlaylist = playlistsIds[selectedId-1];
+                cout << idPlaylist << endl;
+                exibirMenuPlaylist(idPlaylist);
+            }
         } else if (opcao == 4) {
             cout << "Logout realizado com sucesso.\n";
             break;
@@ -91,6 +93,10 @@ vector<int> Menu::exibirPlaylists() {
         }
     }
 
+    if(count == 1){
+        cout << "Você ainda não possui playlists! Adicione playlists com suas faixas preferidas. \n" << endl; 
+    }
+
     return playlistsIds;
 }
 
@@ -130,10 +136,16 @@ void Menu::exibirMenuPlaylist(int idPlaylist) {
 
         if (opcao == 1) {
             string nomeMusica;
-            cout << "Digite o nome da música: ";
+            cout << "Pesquise uma música: ";
             cin.ignore();
             getline(cin, nomeMusica);
-            playlistEncontrada.adicionarMusica(nomeMusica);
+
+            std::vector<int> musicasEncontradas = playlistEncontrada.obterMusicasPorString(nomeMusica);
+
+            
+
+            
+            //playlistEncontrada.adicionarMusica(nomeMusica);
         } else if (opcao == 2) {
             string nomeMusica;
             cout << "Digite o nome da música: ";

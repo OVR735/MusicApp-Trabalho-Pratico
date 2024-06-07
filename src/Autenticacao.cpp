@@ -3,6 +3,7 @@
 #include "Autenticacao.h"
 #include "JsonService.cpp"
 #include <utility>
+#include <string>
 
 using namespace std;
 
@@ -38,6 +39,7 @@ pair<bool, string> Autenticacao::validarRegistro(const string& nome, const strin
         {"email", email},
         {"senha", senha},
         {"playlists", {}},
+        {"premium", false}
     };
 
     usuarios["usuarios"].push_back(novoUsuario);
@@ -117,7 +119,6 @@ bool Autenticacao::obterStatusUsuario(int userId) {
 
     throw "Usuário não encontrado";
 }
-
 
 /* string Autenticacao::obterNomeUsuario(int userId) {
     JSONService reader;
