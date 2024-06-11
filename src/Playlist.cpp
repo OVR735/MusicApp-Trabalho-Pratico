@@ -154,24 +154,6 @@ pair<bool, string> Playlist::adicionarMusica(int idMusica) {
     json playlists = readerPlaylists.getJSON();
     json musicas = readerMusicas.getJSON();
     
-
-
-
-/*     // Encontrar o id da música
-    for (const auto& musc : musicas["musicas"]) {
-        string nome = musc["nome"];
-        size_t found = nome.find(nomeMusica);
-        if(found != string::npos) {
-            idMusica = musc["id"];
-            break;
-        }
-    }
-
-    if (idMusica == 0) {
-        resultado.second = "Música não encontrada.";
-        return resultado;
-    }
-
     for (auto& playlist : playlists["playlists"]) {
         if (getID() == playlist["id"]) {
             auto& musicasNaPlaylist = playlist["musicas"];
@@ -183,6 +165,10 @@ pair<bool, string> Playlist::adicionarMusica(int idMusica) {
             }
 
             musicasNaPlaylist.push_back(idMusica);
+
+            for(auto& it : musicasNaPlaylist){
+                cout << "Codigo de musicas na playlist: " << it << endl;
+            }
 
             readerPlaylists.setJSONData(playlists);
 
@@ -196,7 +182,7 @@ pair<bool, string> Playlist::adicionarMusica(int idMusica) {
         }
     }
 
-    resultado.second = "Playlist não encontrada."; */
+    resultado.second = "Playlist não encontrada.";
     return resultado;
 }
 

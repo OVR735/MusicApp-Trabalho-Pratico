@@ -1,14 +1,16 @@
 #include "Menu.h"
 #include <iostream>
 #include <cstdlib>
+#include <Services.h>
 
 Menu::Menu(Usuario* usuario) : usuario(usuario) {}
 
 void Menu::exibirMenu() {
     int opcao;
+    Services services;
     cout << "Bem-vindo, " << usuario->getNome() << "!\n";
     while (true) {
-        clearConsole();
+        services.clearConsole();
         cout << "1. Alterar Credenciais\n2. Adicionar Playlist\n3. Mostrar minhas Playlists\n4. Logout\n5. Me tornar Premium\nEscolha uma opção: ";
         cin >> opcao;
 
@@ -27,7 +29,7 @@ void Menu::exibirMenu() {
                 exibirMenuPlaylist(idPlaylist);
             }
         } else if (opcao == 4) {
-            clearConsole();
+            services.clearConsole();
             cout << "Logout realizado com sucesso.\n";
             break;
          } else if (opcao == 5) {
@@ -157,8 +159,25 @@ void Menu::exibirMenuPlaylist(int idPlaylist) {
 
             std::vector<int> musicasEncontradas = services.obterMusicasPorString(nomeMusica);
 
+            int idSelecionado = 0;
+            int count = 1;
+            for (int id : musicasEncontradas) {
+                cout << count << "): " << endl;
+                services.obterMusicaPorID(id);
+                std::cout << "----------------------" << std::endl;
+                count++;
+            }
+
+            cout << "Escolha uma musica: ";
+            cin >> idSelecionado;
+
+            int idMusica = musicasEncontradas[idSelecionado-1];
+
+            cout << "Id musica: " << idMusica << endl;
+
+            playlistEncontrada.adicionarMusica(idMusica);
             
-            //playlistEncontrada.adicionarMusica(nomeMusica);
+
         } else if (opcao == 2) {
             string nomeMusica;
             cout << "Digite o nome da música: ";

@@ -53,6 +53,12 @@
 			"nome": "Rolling in the Deep",
 			"artista": "Adele",
 			"duracao": 3.48
+		},
+		{
+			"id": 10,
+			"nome": "Photograp",
+			"artista": "Ed Sheeran",
+			"duracao": 3.54
 		}
 	]
 }

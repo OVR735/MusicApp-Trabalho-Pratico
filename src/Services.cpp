@@ -1,8 +1,9 @@
 #include "Services.h"
-#include "JsonService.cpp"
+#include "JsonService.h"
 #include <iostream>
 #include <string>
 #include <cstdlib>
+#include <stdexcept>
 
 Services::Services() {}
 
@@ -62,3 +63,24 @@ vector<int> Services::obterMusicasPorString(string pesquisa){
     return result;
 }
 
+void Services::obterMusicaPorID(int id) {
+    JSONService reader;
+
+    if (!reader.openFile("../data/Musicas.json")) {
+        throw std::runtime_error("Não foi possível abrir o arquivo Musicas.json");
+    }
+
+    if (!reader.parseJSON()) {
+        throw std::runtime_error("Erro ao analisar o arquivo JSON");
+    }
+
+    json musicas = reader.getJSON();
+
+    for (const auto& musc : musicas["musicas"]) {
+        if (musc["id"] == id) {
+            cout << "Nome: " << musc["nome"] << ", Artista: " << musc["artista"] << ", Duração: " << musc["duracao"] << "\n";
+        }
+    }
+
+    //throw std::runtime_error("Música com o ID fornecido não foi encontrada");
+}

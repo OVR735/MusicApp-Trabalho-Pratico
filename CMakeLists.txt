@@ -23,6 +23,6 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(json)
 
 
-add_executable(MusicApp main.cpp src/Registro.cpp src/Autenticacao.cpp src/Login.cpp src/Menu.cpp src/Usuario.cpp src/UsuarioFree.cpp src/UsuarioPremium.cpp src/Playlist.cpp)
+add_executable(MusicApp main.cpp src/Registro.cpp src/Autenticacao.cpp src/Login.cpp src/Menu.cpp src/Usuario.cpp src/UsuarioFree.cpp src/UsuarioPremium.cpp src/Playlist.cpp src/Services.cpp)
 
 target_link_libraries(MusicApp PRIVATE nlohmann_json::nlohmann_json)
