@@ -17,13 +17,13 @@ void UsuarioPremium::adicionarPlaylist(string nome, string descricao)
 
     if (!reader.openFile("../data/Usuarios.json"))
     {
-        cout << "erro...";
+        throw "deu erro aqui";
     }
 
     // Analisar o conteúdo do JSON
     if (!reader.parseJSON())
     {
-        cout << "erro...";
+        throw "deu erro aqui";
     }
 
     json usuarios = reader.getJSON();
@@ -33,13 +33,11 @@ void UsuarioPremium::adicionarPlaylist(string nome, string descricao)
         if (user["id"] == id)
         {
             user["playlists"] = playlists;
-            limitePlaylists--;
             reader.setJSONData(usuarios);
-            if (!reader.writeJSONToFile("../data/Usuarios.json"))
-            {
+            if (!reader.writeJSONToFile("../data/Usuarios.json")) {
                 throw "Erro ao escrever no arquivo JSON";
             }
-            cout << "Playlist Criada com sucesso!" << endl;
+            cout << "Playlist Criada com sucesso! \n" << endl;
         }
     }
 }
