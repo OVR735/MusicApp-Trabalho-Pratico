@@ -36,6 +36,19 @@ bool Services::obterStatusUsuario(int userId) {
     throw "Usuário não encontrado";
 }
 
+bool containsIgnoreCase(const std::string& str, const std::string& substr) {
+    // Cria cópias das strings para converter para minúsculas
+    std::string strLower = str;
+    std::string substrLower = substr;
+
+    // Converte ambas as strings para minúsculas
+    std::transform(strLower.begin(), strLower.end(), strLower.begin(), ::tolower);
+    std::transform(substrLower.begin(), substrLower.end(), substrLower.begin(), ::tolower);
+
+    // Verifica se a substring está contida na string
+    return strLower.find(substrLower) != std::string::npos;
+}
+
 vector<int> Services::obterMusicasPorString(string pesquisa){
     JSONService reader;
 
@@ -55,7 +68,7 @@ vector<int> Services::obterMusicasPorString(string pesquisa){
         string nomeMusica = musc["nome"];
         string nomeArtista = musc["artista"];
 
-        if(nomeMusica.find(pesquisa) != std::string::npos || nomeArtista.find(pesquisa) != std::string::npos){
+        if(containsIgnoreCase(nomeArtista, pesquisa) || containsIgnoreCase(nomeMusica, pesquisa)){
             result.push_back(musc["id"]);
         }
     }

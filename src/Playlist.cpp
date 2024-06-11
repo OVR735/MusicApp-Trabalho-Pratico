@@ -6,7 +6,7 @@
 
 using namespace std;
 
-Playlist::Playlist(int id) {
+Playlist::Playlist(int idPlaylist) {
     JSONService reader;
 
     if (!reader.openFile("../data/Playlists.json")) {
@@ -20,7 +20,7 @@ Playlist::Playlist(int id) {
     json playlists = reader.getJSON();
 
     for (const auto& play : playlists["playlists"]) {
-        if(play["id"] == id) {
+        if(play["id"] == idPlaylist) {
             id = play["id"];
             idUsuario = play["idUsuario"];
             nome = play["nome"];
@@ -70,15 +70,16 @@ Playlist::Playlist(const string& nome, const string& descricao, int idUser) : no
     }
 }
 
-void Playlist::listarMusicas() {
+vector<int> Playlist::listarMusicas() {
     JSONService readerMusicas;
+    vector<int> muscArray;
 
     if (!readerMusicas.openFile("../data/Musicas.json")) {
-        return;
+        return muscArray;
     }
 
     if (!readerMusicas.parseJSON()) {
-        return;
+        return muscArray;
     }
 
     json musicasJson = readerMusicas.getJSON();
@@ -88,13 +89,17 @@ void Playlist::listarMusicas() {
     for (const auto& musc : musicasJson["musicas"]) {
         int idMusica = musc["id"];
         if(std::find(musicas.begin(), musicas.end(), idMusica) != musicas.end()) {
+            muscArray.push_back(idMusica);
             cout << counter << ") Nome: " << musc["nome"] << ", Artista: " << musc["artista"] << ", Duração: " << musc["duracao"] << endl;
+            counter++;
         }
-        counter++;
     }
-    if(counter == 0) {
+
+    if(counter == 1) {
         cout << "Essa playlist ainda não tem músicas! Pesquise e adicione novas faixas. \n" << endl;
     }
+
+    return muscArray;
 }
 
 pair<bool, int> Playlist::buscarMusica(string nomeMusica) {
@@ -153,12 +158,11 @@ pair<bool, string> Playlist::adicionarMusica(int idMusica) {
 
     json playlists = readerPlaylists.getJSON();
     json musicas = readerMusicas.getJSON();
-    
+
     for (auto& playlist : playlists["playlists"]) {
         if (getID() == playlist["id"]) {
             auto& musicasNaPlaylist = playlist["musicas"];
             auto it = std::find(musicasNaPlaylist.begin(), musicasNaPlaylist.end(), idMusica);
-
             if (it != musicasNaPlaylist.end()) {
                 resultado.second = "Música já está na playlist.";
                 return resultado;
@@ -186,7 +190,7 @@ pair<bool, string> Playlist::adicionarMusica(int idMusica) {
     return resultado;
 }
 
-pair<bool, string> Playlist::removerMusica(string nomeMusica) {
+pair<bool, string> Playlist::removerMusica(int idMusica) {
     JSONService readerPlaylists;
     JSONService readerMusicas;
 
@@ -214,22 +218,6 @@ pair<bool, string> Playlist::removerMusica(string nomeMusica) {
 
     json playlists = readerPlaylists.getJSON();
     json musicas = readerMusicas.getJSON();
-
-    int idMusica = 0;
-
-    for (const auto& musc : musicas["musicas"]) {
-        string nome = musc["nome"];
-        size_t found = nome.find(nomeMusica);
-        if(found != string::npos) {
-            idMusica = musc["id"];
-            break;
-        }
-    }
-
-    if (idMusica == 0) {
-        resultado.second = "Música não encontrada.";
-        return resultado;
-    }
 
     for (auto& playlist : playlists["playlists"]) {
         if (getID() == playlist["id"]) {

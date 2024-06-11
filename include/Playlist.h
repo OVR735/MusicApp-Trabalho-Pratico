@@ -25,9 +25,9 @@ class Playlist {
         Playlist(int id);
         Playlist(const string& nome, const string& descricao, int idUser);
         pair<bool, string> adicionarMusica(int idMusica);
-        pair<bool, string> removerMusica(string nomeMusica);
+        pair<bool, string> removerMusica(int idMusica);
         pair<bool, int> buscarMusica(string nomeMusica);
-        void listarMusicas();
+        vector<int> listarMusicas();
 
         void setNome(string nome);
         void setDescricao(string descricao);

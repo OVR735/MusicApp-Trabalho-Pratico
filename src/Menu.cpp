@@ -25,7 +25,6 @@ void Menu::exibirMenu() {
                 cout << "Escolha uma playlist: ";
                 cin >> selectedId;
                 int idPlaylist = playlistsIds[selectedId-1];
-                cout << idPlaylist << endl;
                 exibirMenuPlaylist(idPlaylist);
             }
         } else if (opcao == 4) {
@@ -133,24 +132,11 @@ void Menu::exibirMenuPlaylist(int idPlaylist) {
 
     Playlist playlistEncontrada(idPlaylist);
 
-    // for (const auto& playlist : playlists["playlists"]) {
-    //     if (playlist["id"] == idPlaylist) {
-    //         playlistEncontrada.setDescricao(playlist["descricao"]);
-    //         playlistEncontrada.setNome(playlist["nome"]);
-    //         playlistEncontrada.setID(playlist["id"]);
-    //         vector<int> muscs = playlist["musicas"];
-    //         for (int i = 0; i < muscs.size(); i++) {
-    //             playlistEncontrada.musicas.push_back(muscs[i]);
-    //         }
-    //     }
-    // }
-
     int opcao;
     while (true) {
         cout << "1. Adicionar música\n2. Remover música\n3. Mostrar músicas\n4. Remover Playlist \n5. Voltar\nEscolha uma opção: ";
         cin >> opcao;
-        
-
+    
         if (opcao == 1) {
             string nomeMusica;
             cout << "Pesquise uma música: ";
@@ -162,7 +148,7 @@ void Menu::exibirMenuPlaylist(int idPlaylist) {
             int idSelecionado = 0;
             int count = 1;
             for (int id : musicasEncontradas) {
-                cout << count << "): " << endl;
+                cout << count << "): ";
                 services.obterMusicaPorID(id);
                 std::cout << "----------------------" << std::endl;
                 count++;
@@ -173,23 +159,38 @@ void Menu::exibirMenuPlaylist(int idPlaylist) {
 
             int idMusica = musicasEncontradas[idSelecionado-1];
 
-            cout << "Id musica: " << idMusica << endl;
-
-            playlistEncontrada.adicionarMusica(idMusica);
-            
-
+            std::pair<bool, std::string> result = playlistEncontrada.adicionarMusica(idMusica);
+            if(result.first){
+                cout << "Musica adicionada com sucesso!" << endl << endl;
+            }
         } else if (opcao == 2) {
-            string nomeMusica;
-            cout << "Digite o nome da música: ";
-            cin >> nomeMusica;
-            playlistEncontrada.removerMusica(nomeMusica);
+            std::vector<int> musicasEncontradas = playlistEncontrada.listarMusicas();
+
+            int idSelecionado = 0;
+
+            cout << "Escolha uma musica: ";
+            cin >> idSelecionado;
+
+            int idMusica = musicasEncontradas[idSelecionado-1];
+
+            std::pair<bool, std::string> result = playlistEncontrada.removerMusica(idMusica);
+            if(result.first){
+                cout << "Musica removida com sucesso!" << endl << endl;
+            }
         } else if (opcao == 3) {
             playlistEncontrada.listarMusicas();
         } else if (opcao == 4) {
-            usuario->removerPlaylist(idPlaylist);
+            int confirmacao = 0;
+            cout << "Você tem certeza? 1-Sim 2-Não: ";
+            cin >> confirmacao;
+            if(confirmacao == 1) {
+                usuario->removerPlaylist(idPlaylist);
+                cout << "Playlist removida com sucesso!" << endl;
+                break;
+            }
         } else if(opcao==5){
             break;
-        }else {
+        } else {
             cerr << "Opção inválida.\n";
         }
     }

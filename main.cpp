@@ -6,6 +6,8 @@
 #include "UsuarioFree.h"
 #include "Services.h"
 
+using namespace std;
+
 void exibirMenuParaUsuario(int userId, bool userStatus) {
     if (userStatus) {
         UsuarioPremium usuario(userId);
@@ -22,8 +24,15 @@ int main() {
     Services services;
     while (true) {
         int opcao;
-        std::cout << "1. Registrar\n2. Login\n3. Sair\nEscolha uma opção: ";
-        std::cin >> opcao;
+        cout << "1. Registrar\n2. Login\n3. Sair\nEscolha uma opção: ";
+        cin >> opcao;
+
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // descarta a entrada inválida
+            cerr << "Opção inválida. Por favor, insira um número válido.\n";
+            continue;
+        }
 
         if (opcao == 1) {
             Registro registro;
@@ -35,12 +44,12 @@ int main() {
                 bool userStatus = services.obterStatusUsuario(userId);
                 exibirMenuParaUsuario(userId, userStatus);
             } else {
-                std::cerr << "Falha no login. Tente novamente.\n";
+                cerr << "Falha no login. Tente novamente.\n";
             }
         } else if (opcao == 3) {
             break;
         } else {
-            std::cerr << "Opção inválida.\n";
+            cerr << "Opção inválida.\n";
         }
     }
 
