@@ -182,7 +182,7 @@ void Usuario::tornarPremium() {
             if (!reader.writeJSONToFile("../data/Usuarios.json")) {
                 throw "Erro ao escrever no arquivo JSON";
             }
-            cout << "\n\nAgora você é um usuário premium!\n\n";
+            cout << "Agora você é um usuário premium!\n\n";
             return;
         }
     }

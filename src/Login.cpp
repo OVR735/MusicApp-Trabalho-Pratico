@@ -1,9 +1,12 @@
 #include "Login.h"
 #include <iostream>
+#include "Services.h"
 
 Login::Login() {}
 
 int Login::fazerLogin() {
+    Services services;
+    
     std::string email, senha;
 
     std::cout << "Digite o e-mail: ";
@@ -13,6 +16,7 @@ int Login::fazerLogin() {
 
     int userId = autenticacao.validarLogin(email, senha);
     if (userId != -1) {
+        services.clearConsole();
         std::cout << "Login realizado com sucesso! Redirecionando para o menu...\n";
         return userId;
     } else {

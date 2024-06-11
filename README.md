@@ -2,16 +2,16 @@
 Aplicativo inspirado no app de músicas spotify. 
 Feito para o trabalho prático da matéria Programação e Desenvolvimento de Software 2 da Universidade Federal de Minas Gerais 
 
-## Instalando o CMake:
+## Instalando o CMake (única dependência do projeto):
 Para instalar o CMake no Ubuntu, execute os seguintes comandos no terminal: 
   
   ```sudo apt update```  
   
   ```sudo apt install cmake```
 
-Para instalar o CMake no Windows, execute o seguinte comando no terminal:
+Para instalar o CMake no Windows, baixe-o através do site:
   
-  ```wget https://github.com/Kitware/CMake/releases/download/v3.21.3/cmake-3.21.3.tar.gz```
+  ```https://cmake.org/download/```
 
 
 Para compilar o projeto, siga estas etapas:
@@ -41,3 +41,13 @@ Após a compilação, você encontrará um Target executável chamado `MusicApp`
 
 ```sh
 ./MusicApp
+```
+
+
+
+## Agradecimentos
+
+Gostaríamos de fazer um agradecimento especial à professora Evellyn Soares Cavalcante pelas aulas ministradas na disciplina de Programação e Desenvolvimento de Software II.
+
+## Contribuição
+Isadora Silva, Pietra Vieira, Otavio Ribeiro, Maria Ribeiro, Amaryam Lucas, Brenda Costa.

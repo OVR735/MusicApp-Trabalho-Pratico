@@ -8,12 +8,11 @@ Menu::Menu(Usuario* usuario) : usuario(usuario) {}
 void Menu::exibirMenu() {
     int opcao;
     Services services;
-    cout << "Bem-vindo, " << usuario->getNome() << "!\n";
-    while (true) {
-        services.clearConsole();
+    while (true) {   
+        cout << "Bem-vindo, " << usuario->getNome() << "!\n";
         cout << "1. Alterar Credenciais\n2. Adicionar Playlist\n3. Mostrar minhas Playlists\n4. Logout\n5. Me tornar Premium\nEscolha uma opção: ";
         cin >> opcao;
-
+        services.clearConsole();
         if (opcao == 1) {
             alterarCredenciais();
         } else if (opcao == 2) {
@@ -28,13 +27,17 @@ void Menu::exibirMenu() {
                 exibirMenuPlaylist(idPlaylist);
             }
         } else if (opcao == 4) {
-            services.clearConsole();
             cout << "Logout realizado com sucesso.\n";
             break;
          } else if (opcao == 5) {
             tornarUsuarioPremium();
         } else {
-            cerr << "Opção inválida.\n";
+            if (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // descarta a entrada inválida
+            cerr << "\nOpção inválida. Por favor, insira um número válido.\n\n";
+            continue;
+        }
         }
     }
 }
@@ -70,14 +73,10 @@ void Menu::alterarCredenciais() {
 
 void Menu::tornarUsuarioPremium() {
     if (usuario->isPremium()) {
-        cout << "\n\nVocê já é um usuário premium.\n\n";
+        cout << "Você já é um usuário premium.\n\n";
     } else {
         usuario->tornarPremium();
     }
-}
-
-void Menu::operacaoExemplo() {
-    cout << "Executando operação de exemplo...\n";
 }
 
 vector<int> Menu::exibirPlaylists() {
@@ -115,25 +114,25 @@ vector<int> Menu::exibirPlaylists() {
 }
 
 void Menu::exibirMenuPlaylist(int idPlaylist) {
-    JSONService reader;
-    Services services;
-
-    if (!reader.openFile("../data/Playlists.json")) {
-        cout << "Não foi possível abrir o arquivo playlists.json\n";
-        return;
-    }
-
-    if (!reader.parseJSON()) {
-        cout << "Erro ao analisar o arquivo JSON\n";
-        return;
-    }
-
-    json playlists = reader.getJSON();
-
-    Playlist playlistEncontrada(idPlaylist);
-
-    int opcao;
     while (true) {
+        JSONService reader;
+        Services services;
+
+        if (!reader.openFile("../data/Playlists.json")) {
+            cout << "Não foi possível abrir o arquivo playlists.json\n";
+            return;
+        }
+
+        if (!reader.parseJSON()) {
+            cout << "Erro ao analisar o arquivo JSON\n";
+            return;
+        }
+
+        json playlists = reader.getJSON();
+
+        Playlist playlistEncontrada(idPlaylist);
+
+        int opcao;
         cout << "1. Adicionar música\n2. Remover música\n3. Mostrar músicas\n4. Remover Playlist \n5. Voltar\nEscolha uma opção: ";
         cin >> opcao;
     
