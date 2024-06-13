@@ -9,7 +9,10 @@ public:
         limitePlaylists = 10;
     };
 
-    void playlistRestantes();
+    void playlistsRestantes()
+    {
+        cout << "Você ainda tem " << limitePlaylists << "restantes!";
+    }
 
     void adicionarPlaylist(string nome, string descricao) override;
 };

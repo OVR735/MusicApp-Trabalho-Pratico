@@ -133,7 +133,7 @@ void Menu::exibirMenuPlaylist(int idPlaylist) {
         Playlist playlistEncontrada(idPlaylist);
 
         int opcao;
-        cout << "1. Adicionar música\n2. Remover música\n3. Mostrar músicas\n4. Remover Playlist \n5. Voltar\nEscolha uma opção: ";
+        cout << "1. Adicionar música\n2. Remover música\n3. Mostrar músicas\n4. Remover Playlist \n5.Playlists Restantes \n6. Voltar\nEscolha uma opção: ";
         cin >> opcao;
     
         if (opcao == 1) {
@@ -188,6 +188,8 @@ void Menu::exibirMenuPlaylist(int idPlaylist) {
                 break;
             }
         } else if(opcao==5){
+            usuario->playlistsRestantes();
+        } else if(opcao==6){
             break;
         } else {
             cerr << "Opção inválida.\n";

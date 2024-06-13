@@ -18,9 +18,6 @@ protected:
     int limitePlaylists;
     vector<int> playlists;
 
-private: 
-    void removeElement(std::vector<int>& vec, int value);
-
 public:
     Usuario(int id);
 
@@ -32,8 +29,8 @@ public:
     
     virtual void adicionarPlaylist(string nome, string descricao) = 0;
     void removerPlaylist(int idPlaylist);
-    void playlistRestantes();
     void tornarPremium();
+    virtual void playlistsRestantes() {}
 
     void alterarCredenciais(const string& novoNome, const string& novoEmail, const string& novaSenha);
 };

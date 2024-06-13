@@ -16,7 +16,6 @@ private:
     Usuario* usuario;
 
     void alterarCredenciais();
-    void operacaoExemplo(); // Placeholder para futuras operações
     void adicionarPlaylistUsuario();
     vector<int> exibirPlaylists();
     void exibirMenuPlaylist(int idPlaylist);

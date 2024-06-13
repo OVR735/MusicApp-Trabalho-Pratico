@@ -1,10 +1,10 @@
 #include "UsuarioPremium.h"
 #include <iostream>
 
-void UsuarioPremium::playlistRestantes()
-{
-    cout << "Aproveite os beneficios do premium! Playlists sem limites";
-}
+// void UsuarioPremium::playlistsRestantes() override
+// {
+//     cout << "Aproveite os beneficios do premium! Playlists sem limites";
+// }
 
 void UsuarioPremium::adicionarPlaylist(string nome, string descricao)
 {
