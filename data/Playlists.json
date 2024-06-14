@@ -1,36 +1,3 @@
 {
-    "playlists": [
-        {
-            "descricao": "bb",
-            "id": 3,
-            "idUsuario": 2,
-            "musicas": [
-                4
-            ],
-            "nome": "aaaa"
-        },
-        {
-            "descricao": "Melhores amigos das musicas ",
-            "id": 4,
-            "idUsuario": 1,
-            "musicas": [
-                5
-            ],
-            "nome": "Playlist dos amigos"
-        },
-        {
-            "descricao": "Carro",
-            "id": 5,
-            "idUsuario": 3,
-            "musicas": null,
-            "nome": "Músicas Curtidas"
-        },
-        {
-            "descricao": "relaxar",
-            "id": 6,
-            "idUsuario": 1,
-            "musicas": null,
-            "nome": "pulmao quente coracao gelado"
-        }
-    ]
+    "playlists": []
 }

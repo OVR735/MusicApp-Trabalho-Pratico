@@ -49,7 +49,12 @@ Playlist::Playlist(const string& nome, const string& descricao, int idUser) : no
 
     json playlists = reader.getJSON();
 
-    int newId = playlists["playlists"].back()["id"];
+    int newId = 0;
+
+    if(playlists["playlists"].size() > 0) {
+        int newId = playlists["playlists"].back()["id"];
+    }
+
     newId += 1;    
     id = newId;
 

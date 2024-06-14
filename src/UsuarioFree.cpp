@@ -2,11 +2,6 @@
 #include <iostream>
 #include <string>
 
-void UsuarioFree::playlistRestantes()
-{
-    cout << "Você ainda tem " << limitePlaylists << "restantes!";
-}
-
 void UsuarioFree::adicionarPlaylist(string nome, string descricao)
 {
 

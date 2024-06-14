@@ -10,7 +10,10 @@ public:
         limitePlaylists = INT_MAX;
     };
 
-    void playlistRestantes();
+    void playlistsRestantes() override
+    {
+        cout << "Aproveite os beneficios do premium! Playlists sem limites";
+    }
 
     void adicionarPlaylist(string nome, string descricao) override;
 };

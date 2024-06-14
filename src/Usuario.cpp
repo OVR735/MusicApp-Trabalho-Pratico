@@ -79,6 +79,7 @@ void Usuario::removerPlaylist(int idPlaylist)
 				}
 
 				std::cout << "Playlist do usuário removida com sucesso." << std::endl;
+				limitePlaylists++;
 			}
 			else
 			{
@@ -87,7 +88,7 @@ void Usuario::removerPlaylist(int idPlaylist)
 		}
 	}
 
-	/* for (auto &user : usuarios["usuarios"])
+	for (auto &user : usuarios["usuarios"])
 	{
 		if (id == user["id"])
 		{
@@ -98,7 +99,7 @@ void Usuario::removerPlaylist(int idPlaylist)
 				throw "Erro ao atualizar o arquivo JSON";
 			}
 		}
-	} */
+	}
 
 	for (auto &playlist : playlists["playlists"])
 	{
