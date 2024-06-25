@@ -21,6 +21,7 @@ void Menu::exibirMenu() {
             if (cin.fail()) {
                 cin.clear();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+                services.clearConsole();
                 throw invalid_argument("Opção inválida. Por favor, insira um número válido.");
             }
 
@@ -43,6 +44,7 @@ void Menu::exibirMenu() {
                         if (cin.fail() || selectedId < 1 || selectedId > playlistsIds.size()) {
                             cin.clear();
                             cin.ignore(numeric_limits<streamsize>::max(), '\n'); // descarta a entrada inválida
+                            services.clearConsole();
                             throw out_of_range("Seleção de playlist inválida.");
                         }
 

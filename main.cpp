@@ -30,6 +30,7 @@ int main() {
         if (cin.fail()) {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n'); // descarta a entrada inválida
+            services.clearConsole();
             cerr << "Opção inválida. Por favor, insira um número válido.\n";
             continue;
         }
@@ -49,6 +50,7 @@ int main() {
         } else if (opcao == 3) {
             break;
         } else {
+            services.clearConsole();
             cerr << "Opção inválida.\n";
         }
     }
