@@ -26,11 +26,11 @@ bool JSONService::parseJSON() {
             fileStream >> jsonData;
             return true;
         } catch (const std::exception& e) {
-            std::cerr << "Error parsing JSON: " << e.what() << std::endl;
+            std::cerr << "Erro ao converter para JSON " << e.what() << std::endl;
             return false;
         }
     } else {
-        std::cerr << "No file open." << std::endl;
+        std::cerr << "Arquivo não aberto" << std::endl;
         return false;
     }
 }
@@ -51,12 +51,12 @@ bool JSONService::writeJSONToFile(const std::string& filename) {
             outFile.close();
             return true;
         } catch (const std::exception& e) {
-            std::cerr << "Error writing JSON to file: " << e.what() << std::endl;
+            std::cerr << "Erro ao escrever no arquivo: " << e.what() << std::endl;
             outFile.close();
             return false;
         }
     } else {
-        std::cerr << "Unable to open file for writing: " << filename << std::endl;
+        std::cerr << "Impossível abrir arquivo para escrita." << filename << std::endl;
         return false;
     }
 }

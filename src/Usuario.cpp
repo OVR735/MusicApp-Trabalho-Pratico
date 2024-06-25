@@ -1,190 +1,211 @@
 #include "Usuario.h"
 #include <iostream>
 
-Usuario::Usuario(int sessionId)
-{
-	JSONService reader;
+Usuario::Usuario(int sessionId) {
+    JSONService reader;
 
-	if (!reader.openFile("../data/Usuarios.json"))
-	{
-		throw "Não foi possível abrir o arquivo Usuarios.json";
-	}
+    try {
+        if (!reader.openFile("../data/Usuarios.json")) {
+            throw std::runtime_error("Não foi possível abrir o arquivo Usuarios.json");
+        }
 
-	if (!reader.parseJSON())
-	{
-		throw "Erro ao analisar o arquivo JSON";
-	}
+        if (!reader.parseJSON()) {
+            throw std::runtime_error("Erro ao analisar o arquivo JSON");
+        }
 
-	json usuarios = reader.getJSON();
+        json usuarios = reader.getJSON();
 
-	for (auto &user : usuarios["usuarios"])
-	{
-		if (sessionId == user["id"])
-		{
-			id = sessionId;
-			nome = user["nome"];
-			email = user["email"];
-			senha = user["senha"];
-			premium = user["premium"];
-			for (auto &idPlaylist : user["playlists"])
-			{
-				playlists.push_back(idPlaylist);
-			}
-			return;
-		}
-	}
+        for (auto& user : usuarios["usuarios"]) {
+            if (sessionId == user["id"]) {
+                id = sessionId;
+                nome = user["nome"];
+                email = user["email"];
+                senha = user["senha"];
+                premium = user["premium"];
+                for (auto& idPlaylist : user["playlists"]) {
+                    playlists.push_back(idPlaylist);
+                }
+                return;
+            }
+        }
 
-	throw "Usuário não encontrado";
+        throw std::runtime_error("Usuário não encontrado");
+    } catch (const std::exception& e) {
+        std::cerr << "Erro ao inicializar usuário: " << e.what() << std::endl;
+        throw;
+    } catch (...) {
+        std::cerr << "Exceção desconhecida ao inicializar usuário" << std::endl;
+        throw;
+    }
 }
+
 const int Usuario::getId() const { return id; }
 const std::string& Usuario::getNome() const { return nome; }
 const std::string& Usuario::getEmail() const { return email; }
 const std::string& Usuario::getSenha() const { return senha; }
 const bool Usuario::isPremium() const { return premium; }
 
-void Usuario::removerPlaylist(int idPlaylist)
-{
-	JSONService readerUsuarios;
-	JSONService readerPlaylists;
+void Usuario::removerPlaylist(int idPlaylist) {
+    JSONService readerUsuarios;
+    JSONService readerPlaylists;
 
-	if (!readerUsuarios.openFile("../data/Usuarios.json") || (!readerPlaylists.openFile("../data/Playlists.json")))
-	{
-		throw "Erro ao ler arquivo!";
-	}
-	// Analisar o conteúdo do JSON
-	if (!readerUsuarios.parseJSON() || !readerPlaylists.parseJSON())
-	{
-		throw "deu erro aqui";
-	}
+    try {
+        if (!readerUsuarios.openFile("../data/Usuarios.json") || !readerPlaylists.openFile("../data/Playlists.json")) {
+            throw std::runtime_error("Erro ao abrir arquivo(s) JSON.");
+        }
 
-	json usuarios = readerUsuarios.getJSON();
-	json playlists = readerPlaylists.getJSON();
+        if (!readerUsuarios.parseJSON() || !readerPlaylists.parseJSON()) {
+            throw std::runtime_error("Erro ao analisar arquivo(s) JSON.");
+        }
 
-	for (auto &user : usuarios["usuarios"])
-	{
-		if (id == user["id"])
-		{
-			auto &userPlaylists = user["playlists"];
+        json usuarios = readerUsuarios.getJSON();
+        json playlists = readerPlaylists.getJSON();
 
-			auto it = std::find(userPlaylists.begin(), userPlaylists.end(), idPlaylist);
-			if (it != userPlaylists.end())
-			{
-				userPlaylists.erase(it);
+        bool usuarioEncontrado = false;
 
-				readerUsuarios.setJSONData(usuarios);
+        for (auto& user : usuarios["usuarios"]) {
+            if (id == user["id"]) {
+                auto& userPlaylists = user["playlists"];
 
-				if (!readerUsuarios.writeJSONToFile("../data/Usuarios.json"))
-				{
-					throw "Erro ao atualizar o arquivo JSON";
-				}
+                auto it = std::find(userPlaylists.begin(), userPlaylists.end(), idPlaylist);
+                if (it != userPlaylists.end()) {
+                    userPlaylists.erase(it);
 
-				std::cout << "Playlist do usuário removida com sucesso." << std::endl;
-				limitePlaylists++;
-			}
-			else
-			{
-				std::cerr << "Playlist não encontrada para o usuário" << std::endl;
-			}
-		}
-	}
+                    readerUsuarios.setJSONData(usuarios);
 
-	for (auto &user : usuarios["usuarios"])
-	{
-		if (id == user["id"])
-		{
-			readerUsuarios.setJSONData(usuarios);
+                    if (!readerUsuarios.writeJSONToFile("../data/Usuarios.json")) {
+                        throw std::runtime_error("Erro ao atualizar arquivo Usuarios.json.");
+                    }
 
-			if (!readerUsuarios.writeJSONToFile("../data/Usuarios.json"))
-			{
-				throw "Erro ao atualizar o arquivo JSON";
-			}
-		}
-	}
+                    std::cout << "Playlist do usuário removida com sucesso." << std::endl;
+                    limitePlaylists++;
+                    usuarioEncontrado = true;
+                } else {
+                    std::cerr << "Playlist não encontrada para o usuário." << std::endl;
+                }
+                break;
+            }
+        }
 
-	for (auto &playlist : playlists["playlists"])
-	{
-		auto &playlistsArray = playlists["playlists"];
-		for (auto it = playlistsArray.begin(); it != playlistsArray.end(); ++it)
-		{
-			if ((*it)["id"] == id)
-			{
-				playlistsArray.erase(it);
-				break;
-			}
-		}
+        if (!usuarioEncontrado) {
+            throw std::runtime_error("Usuário não encontrado.");
+        }
 
-		readerPlaylists.setJSONData(playlists);
+        bool playlistEncontrada = false;
 
-		if (!readerPlaylists.writeJSONToFile("../data/Playlists.json"))
-		{
-			throw "Erro ao atualizar o arquivo JSON";
-		}
-	}
+        for (auto it = playlists["playlists"].begin(); it != playlists["playlists"].end(); ++it) {
+            if ((*it)["id"] == idPlaylist) {
+                playlists["playlists"].erase(it);
+                playlistEncontrada = true;
+                break;
+            }
+        }
+
+        if (!playlistEncontrada) {
+            throw std::runtime_error("Playlist não encontrada.");
+        }
+
+        readerPlaylists.setJSONData(playlists);
+
+        if (!readerPlaylists.writeJSONToFile("../data/Playlists.json")) {
+            throw std::runtime_error("Erro ao atualizar arquivo Playlists.json.");
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Erro ao remover playlist: " << e.what() << std::endl;
+        throw; 
+    } catch (...) {
+        std::cerr << "Exceção desconhecida ao remover playlist." << std::endl;
+        throw;
+    }
 }
 
-void Usuario::alterarCredenciais(const string &novoNome, const string &novoEmail, const string &novaSenha)
-{
-	JSONService reader;
+void Usuario::alterarCredenciais(const string &novoNome, const string &novoEmail, const string &novaSenha) {
+    JSONService reader;
 
-	if (!reader.openFile("../data/Usuarios.json"))
-	{
-		throw "Não foi possível abrir o arquivo Usuarios.json";
-	}
+    try {
+        if (!reader.openFile("../data/Usuarios.json")) {
+            throw std::runtime_error("Não foi possível abrir o arquivo Usuarios.json");
+        }
 
-	if (!reader.parseJSON())
-	{
-		throw "Erro ao analisar o arquivo JSON";
-	}
+        if (!reader.parseJSON()) {
+            throw std::runtime_error("Erro ao analisar o arquivo JSON");
+        }
 
-	json usuarios = reader.getJSON();
+        json usuarios = reader.getJSON();
 
-	for (auto &user : usuarios["usuarios"])
-	{
-		if (id == user["id"])
-		{
-			user["nome"] = novoNome;
-			user["email"] = novoEmail;
-			user["senha"] = novaSenha;
-			reader.setJSONData(usuarios);
+        bool usuarioEncontrado = false;
 
-			if (!reader.writeJSONToFile("../data/Usuarios.json"))
-			{
-				throw "Erro ao atualizar o arquivo JSON com as novas credenciais.";
-			}
+        for (auto &user : usuarios["usuarios"]) {
+            if (id == user["id"]) {
+                user["nome"] = novoNome;
+                user["email"] = novoEmail;
+                user["senha"] = novaSenha;
+                reader.setJSONData(usuarios);
 
-			nome = novoNome;
-			email = novoEmail;
-			senha = novaSenha;
-			return;
-		}
-	}
+                if (!reader.writeJSONToFile("../data/Usuarios.json")) {
+                    throw std::runtime_error("Erro ao atualizar o arquivo JSON com as novas credenciais.");
+                }
 
-	throw "Usuário não encontrado";
+                nome = novoNome;
+                email = novoEmail;
+                senha = novaSenha;
+                usuarioEncontrado = true;
+                break;
+            }
+        }
+
+        if (!usuarioEncontrado) {
+            throw std::runtime_error("Usuário não encontrado");
+        }
+    } catch (const std::exception &e) {
+        std::cerr << "Erro ao alterar credenciais: " << e.what() << std::endl;
+        throw; 
+    } catch (...) {
+        std::cerr << "Exceção desconhecida ao alterar credenciais." << std::endl;
+        throw; 
+    }
 }
 
 void Usuario::tornarPremium() {
     JSONService reader;
 
-    if (!reader.openFile("../data/Usuarios.json")) {
-        throw "Não foi possível abrir o arquivo Usuarios.json";
-    }
-
-    if (!reader.parseJSON()) {
-        throw "Erro ao analisar o arquivo JSON";
-    }
-
-    json usuarios = reader.getJSON();
-
-    for (auto& user : usuarios["usuarios"]) {
-        if (user["id"] == id) {
-            user["premium"] = true;
-            premium = true;
-            reader.setJSONData(usuarios);
-            if (!reader.writeJSONToFile("../data/Usuarios.json")) {
-                throw "Erro ao escrever no arquivo JSON";
-            }
-            cout << "Agora você é um usuário premium!\n\n";
-            return;
+    try {
+        if (!reader.openFile("../data/Usuarios.json")) {
+            throw std::runtime_error("Não foi possível abrir o arquivo Usuarios.json");
         }
+
+        if (!reader.parseJSON()) {
+            throw std::runtime_error("Erro ao analisar o arquivo JSON");
+        }
+
+        json usuarios = reader.getJSON();
+
+        bool usuarioEncontrado = false;
+
+        for (auto& user : usuarios["usuarios"]) {
+            if (user["id"] == id) {
+                user["premium"] = true;
+                premium = true;
+                reader.setJSONData(usuarios);
+
+                if (!reader.writeJSONToFile("../data/Usuarios.json")) {
+                    throw std::runtime_error("Erro ao escrever no arquivo JSON");
+                }
+
+                cout << "Agora você é um usuário premium!\n\n";
+                usuarioEncontrado = true;
+                break;
+            }
+        }
+
+        if (!usuarioEncontrado) {
+            throw std::runtime_error("Usuário não encontrado");
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Erro ao tornar usuário premium: " << e.what() << std::endl;
+        throw; // Re-throw para que o erro seja tratado onde a função foi originalmente chamada
+    } catch (...) {
+        std::cerr << "Exceção desconhecida ao tornar usuário premium." << std::endl;
+        throw; // Re-throw para que o erro seja tratado onde a função foi originalmente chamada
     }
 }

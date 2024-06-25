@@ -4,45 +4,53 @@
 
 void UsuarioFree::adicionarPlaylist(string nome, string descricao)
 {
-
     JSONService reader;
 
-    if (playlists.size() < limitePlaylists)
-    {
-
-        Playlist newPlaylist(nome, descricao, id);
-
-        playlists.push_back(newPlaylist.getID());
-
-        if (!reader.openFile("../data/Usuarios.json"))
-        {
-            throw "deu erro aqui";
+    try {
+        if (playlists.size() >= limitePlaylists) {
+            cout << "Você atingiu o limite de playlists. Assine o premium para músicas sem limite!" << endl;
+            return;
         }
 
-        // Analisar o conteúdo do JSON
-        if (!reader.parseJSON())
-        {
-            throw "deu erro aqui";
+        Playlist newPlaylist(nome, descricao, id);
+        playlists.push_back(newPlaylist.getID());
+
+        if (!reader.openFile("../data/Usuarios.json")) {
+            throw std::runtime_error("Não foi possível abrir o arquivo Usuarios.json");
+        }
+
+        if (!reader.parseJSON()) {
+            throw std::runtime_error("Erro ao analisar o arquivo JSON");
         }
 
         json usuarios = reader.getJSON();
 
-        for (auto &user : usuarios["usuarios"])
-        {
-            if (user["id"] == id)
-            {
+        bool usuarioEncontrado = false;
+
+        for (auto &user : usuarios["usuarios"]) {
+            if (user["id"] == id) {
                 user["playlists"] = playlists;
                 limitePlaylists--;
                 reader.setJSONData(usuarios);
+
                 if (!reader.writeJSONToFile("../data/Usuarios.json")) {
-                    throw "Erro ao escrever no arquivo JSON";
+                    throw std::runtime_error("Erro ao escrever no arquivo JSON");
                 }
-                cout << "Playlist Criada com sucesso! \n" << endl;
+
+                cout << "Playlist criada com sucesso!" << endl;
+                usuarioEncontrado = true;
+                break;
             }
         }
-    }
-    else
-    {
-        cout << "Você antigiu o limite de playlists. Assine o premium para músicas sem limite!";
+
+        if (!usuarioEncontrado) {
+            throw std::runtime_error("Usuário não encontrado");
+        }
+    } catch (const std::exception &e) {
+        std::cerr << "Erro ao adicionar playlist: " << e.what() << std::endl;
+        throw;
+    } catch (...) {
+        std::cerr << "Exceção desconhecida ao adicionar playlist." << std::endl;
+        throw;
     }
 }

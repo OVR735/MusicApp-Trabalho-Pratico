@@ -1,43 +1,61 @@
 #include "UsuarioPremium.h"
 #include <iostream>
+#include <stdexcept> // para std::runtime_error
 
-// void UsuarioPremium::playlistsRestantes() override
-// {
-//     cout << "Aproveite os beneficios do premium! Playlists sem limites";
-// }
+using namespace std;
 
 void UsuarioPremium::adicionarPlaylist(string nome, string descricao)
 {
-
     JSONService reader;
 
-    Playlist newPlaylist(nome, descricao, id);
-
-    playlists.push_back(newPlaylist.getID());
-
-    if (!reader.openFile("../data/Usuarios.json"))
+    try
     {
-        throw "deu erro aqui";
-    }
+        Playlist newPlaylist(nome, descricao, id);
+        playlists.push_back(newPlaylist.getID());
 
-    // Analisar o conteúdo do JSON
-    if (!reader.parseJSON())
-    {
-        throw "deu erro aqui";
-    }
-
-    json usuarios = reader.getJSON();
-
-    for (auto &user : usuarios["usuarios"])
-    {
-        if (user["id"] == id)
+        if (!reader.openFile("../data/Usuarios.json"))
         {
-            user["playlists"] = playlists;
-            reader.setJSONData(usuarios);
-            if (!reader.writeJSONToFile("../data/Usuarios.json")) {
-                throw "Erro ao escrever no arquivo JSON";
-            }
-            cout << "Playlist Criada com sucesso! \n" << endl;
+            throw runtime_error("Erro ao abrir o arquivo JSON");
         }
+
+        // Analisar o conteúdo do JSON
+        if (!reader.parseJSON())
+        {
+            throw runtime_error("Erro ao analisar o JSON");
+        }
+
+        json usuarios = reader.getJSON();
+
+        bool userFound = false;
+
+        for (auto &user : usuarios["usuarios"])
+        {
+            if (user["id"] == id)
+            {
+                user["playlists"] = playlists;
+                reader.setJSONData(usuarios);
+                if (!reader.writeJSONToFile("../data/Usuarios.json"))
+                {
+                    throw runtime_error("Erro ao escrever no arquivo JSON");
+                }
+                userFound = true;
+                cout << "Playlist criada com sucesso! \n"
+                     << endl;
+                break;
+            }
+        }
+
+        if (!userFound)
+        {
+            throw runtime_error("Usuário não encontrado no JSON");
+        }
+    }
+    catch (const runtime_error &e)
+    {
+        cerr << "Erro: " << e.what() << endl;
+    }
+    catch (const exception &e)
+    {
+        cerr << "Erro inesperado: " << e.what() << endl;
     }
 }

@@ -4,6 +4,7 @@
 #include <string>
 #include <cstdlib>
 #include <stdexcept>
+#include <algorithm>
 
 Services::Services() {}
 
@@ -18,22 +19,27 @@ void Services::clearConsole() {
 bool Services::obterStatusUsuario(int userId) {
     JSONService reader;
 
-    if (!reader.openFile("../data/Usuarios.json")) {
-        throw "Não foi possível abrir o arquivo Usuarios.json";
-    }
-
-    if (!reader.parseJSON()) {
-        throw "Erro ao analisar o arquivo JSON";
-    }
-
-    json usuarios = reader.getJSON();
-    for (const auto& usuario : usuarios["usuarios"]) {
-        if (userId == usuario["id"]) {
-            return usuario["premium"];
+    try {
+        if (!reader.openFile("../data/Usuarios.json")) {
+            throw runtime_error("Não foi possível abrir o arquivo Usuarios.json");
         }
-    }
 
-    throw "Usuário não encontrado";
+        if (!reader.parseJSON()) {
+            throw runtime_error("Erro ao analisar o arquivo JSON");
+        }
+
+        json usuarios = reader.getJSON();
+        for (const auto& usuario : usuarios["usuarios"]) {
+            if (userId == usuario["id"]) {
+                return usuario["premium"];
+            }
+        }
+
+        throw runtime_error("Usuário não encontrado");
+    } catch (const std::exception& e) {
+        std::cerr << "Erro ao obter status do usuário: " << e.what() << std::endl;
+        throw;
+    }
 }
 
 bool containsIgnoreCase(const std::string& str, const std::string& substr) {
@@ -52,48 +58,63 @@ bool containsIgnoreCase(const std::string& str, const std::string& substr) {
 vector<int> Services::obterMusicasPorString(string pesquisa){
     JSONService reader;
 
-    if (!reader.openFile("../data/Musicas.json")) {
-        throw "Não foi possível abrir o arquivo Musicas.json";
-    }
-
-    if (!reader.parseJSON()) {
-        throw "Erro ao analisar o arquivo JSON";
-    }
-
-    json musicas = reader.getJSON();
-
-    std::vector<int> result;
-
-    for (const auto& musc : musicas["musicas"]) {
-        string nomeMusica = musc["nome"];
-        string nomeArtista = musc["artista"];
-
-        if(containsIgnoreCase(nomeArtista, pesquisa) || containsIgnoreCase(nomeMusica, pesquisa)){
-            result.push_back(musc["id"]);
+    try {
+        if (!reader.openFile("../data/Musicas.json")) {
+            throw runtime_error("Não foi possível abrir o arquivo Musicas.json");
         }
-    }
 
-    return result;
+        if (!reader.parseJSON()) {
+            throw runtime_error("Erro ao analisar o arquivo JSON");
+        }
+
+        json musicas = reader.getJSON();
+
+        std::vector<int> result;
+
+        for (const auto& musc : musicas["musicas"]) {
+            string nomeMusica = musc["nome"];
+            string nomeArtista = musc["artista"];
+
+            if(containsIgnoreCase(nomeArtista, pesquisa) || containsIgnoreCase(nomeMusica, pesquisa)){
+                result.push_back(musc["id"]);
+            }
+        }
+
+        return result;
+    } catch (const std::exception& e) {
+        std::cerr << "Erro ao obter músicas por string: " << e.what() << std::endl;
+        throw;
+    }
 }
 
 void Services::obterMusicaPorID(int id) {
     JSONService reader;
 
-    if (!reader.openFile("../data/Musicas.json")) {
-        throw std::runtime_error("Não foi possível abrir o arquivo Musicas.json");
-    }
-
-    if (!reader.parseJSON()) {
-        throw std::runtime_error("Erro ao analisar o arquivo JSON");
-    }
-
-    json musicas = reader.getJSON();
-
-    for (const auto& musc : musicas["musicas"]) {
-        if (musc["id"] == id) {
-            cout << "Nome: " << musc["nome"] << ", Artista: " << musc["artista"] << ", Duração: " << musc["duracao"] << "\n";
+    try {
+        if (!reader.openFile("../data/Musicas.json")) {
+            throw runtime_error("Não foi possível abrir o arquivo Musicas.json");
         }
-    }
 
-    //throw std::runtime_error("Música com o ID fornecido não foi encontrada");
+        if (!reader.parseJSON()) {
+            throw runtime_error("Erro ao analisar o arquivo JSON");
+        }
+
+        json musicas = reader.getJSON();
+
+        bool encontrou = false;
+        for (const auto& musc : musicas["musicas"]) {
+            if (musc["id"] == id) {
+                cout << "Nome: " << musc["nome"] << ", Artista: " << musc["artista"] << ", Duração: " << musc["duracao"] << "\n";
+                encontrou = true;
+                break;
+            }
+        }
+
+        if (!encontrou) {
+            throw runtime_error("Música com o ID fornecido não foi encontrada");
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Erro ao obter música por ID: " << e.what() << std::endl;
+        throw;
+    }
 }
