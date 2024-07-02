@@ -27,9 +27,11 @@ add_executable(MusicApp main.cpp src/Registro.cpp src/Autenticacao.cpp src/Login
 
 add_executable(AutenticacaoTest tests/AutenticacaoTeste.cpp src/Autenticacao.cpp)
 add_executable(JSONServiceTest tests/JSONServiceTeste.cpp src/JSONService.cpp)
+add_executable(PlaylistTest tests/PlaylistTeste.cpp src/Playlist.cpp src/JSONService.cpp)
 
 target_link_libraries(MusicApp PRIVATE nlohmann_json::nlohmann_json)
 
 target_link_libraries(AutenticacaoTest PRIVATE nlohmann_json::nlohmann_json)
 target_link_libraries(JSONServiceTest nlohmann_json::nlohmann_json)
+target_link_libraries(PlaylistTest nlohmann_json::nlohmann_json)
 

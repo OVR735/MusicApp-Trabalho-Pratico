@@ -1,6 +1,12 @@
 {
 	"musicas": [
 		{
+			"id": 0,
+			"nome": "Musica Teste",
+			"artista": "Teste",
+			"duracao": 1
+		},
+		{
 			"id": 1,
 			"nome": "Shape of You",
 			"artista": "Ed Sheeran",

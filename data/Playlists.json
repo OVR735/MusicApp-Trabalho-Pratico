@@ -1,3 +1,11 @@
 {
-    "playlists": []
+    "playlists": [
+        {
+            "descricao": "playlist criada para os testes do arquivo PlaylistTeste",
+            "id": 0,
+            "idUsuario": 0,
+            "musicas": [],
+            "nome": "Playlist de Teste"
+        }
+    ]
 }
