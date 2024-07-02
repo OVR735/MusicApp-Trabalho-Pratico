@@ -1,5 +1,5 @@
-#ifndef JSONREADER_H
-#define JSONREADER_H
+#ifndef JSONSERVICE_H
+#define JSONSERVICE_H
 
 #include <string>
 #include <fstream>
@@ -9,28 +9,70 @@
 using namespace std;
 using json = nlohmann::json;
 
+/**
+ * @class JSONService
+ * @brief Classe responsável por ler, analisar e escrever dados JSON.
+ *
+ * A classe JSONService fornece métodos para abrir arquivos JSON, analisar seu conteúdo,
+ * acessar e modificar dados JSON e gravar dados JSON de volta em um arquivo.
+ */
 class JSONService {
-    public:
-        JSONService();
-        ~JSONService();
+public:
+    /**
+     * @brief Construtor da classe JSONService.
+     */
+    JSONService();
 
-        bool openFile(const string& filename);
-        void closeFile();
+    /**
+     * @brief Destrutor da classe JSONService.
+     */
+    ~JSONService();
 
-        bool parseJSON(); // Método para analisar o JSON e armazenar os dados
+    /**
+     * @brief Abre um arquivo JSON.
+     *
+     * @param filename Nome do arquivo JSON a ser aberto.
+     * @return true se o arquivo foi aberto com sucesso, false caso contrário.
+     */
+    bool openFile(const string& filename);
 
-        // Método para acessar o JSON como um objeto
-        json getJSON() const;
+    /**
+     * @brief Fecha o arquivo JSON.
+     */
+    void closeFile();
 
-        void setJSONData(json data);
+    /**
+     * @brief Analisa o conteúdo do arquivo JSON e armazena os dados.
+     *
+     * @return true se a análise foi bem-sucedida, false caso contrário.
+     */
+    bool parseJSON();
 
-        // Método para escrever o JSON de volta ao arquivo
-        bool writeJSONToFile(const string& filename);
-        
+    /**
+     * @brief Obtém os dados JSON como um objeto.
+     *
+     * @return Um objeto JSON contendo os dados analisados.
+     */
+    json getJSON() const;
 
-    private:
-        ifstream fileStream;
-        json jsonData;
+    /**
+     * @brief Define os dados JSON.
+     *
+     * @param data Dados JSON a serem definidos.
+     */
+    void setJSONData(json data);
+
+    /**
+     * @brief Escreve os dados JSON de volta para um arquivo.
+     *
+     * @param filename Nome do arquivo JSON onde os dados serão gravados.
+     * @return true se os dados foram gravados com sucesso, false caso contrário.
+     */
+    bool writeJSONToFile(const string& filename);
+
+private:
+    ifstream fileStream; ///< Fluxo de arquivo para leitura do arquivo JSON.
+    json jsonData; ///< Objeto JSON contendo os dados analisados.
 };
 
-#endif // JSONREADER_H
+#endif // JSONSERVICE_H
