@@ -4,7 +4,7 @@
             "descricao": "playlist criada para os testes do arquivo PlaylistTeste",
             "id": 0,
             "idUsuario": 0,
-            "musicas": [],
+            "musicas": [0],
             "nome": "Playlist de Teste"
         }
     ]
